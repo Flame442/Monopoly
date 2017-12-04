@@ -520,7 +520,9 @@ def chance():
       tile[p] = 28
     else:
       bal[p] += 200
+      print('You passed go, you now have $'+str(bal[p]))
       tile[p] = 12 #always 10 times rent if owned
+    print('You are now at '+name[tile[p]])
     if ownedby[tile[p]] == 0 and bal[p] >= pricebuy[tile[p]]:
       print('Would you like to buy '+tilename[tile[p]]+' for $'+str(pricebuy[tile[p]])+'? (y/n) You have $'+str(bal[p])+'.')
       a = 0
@@ -548,7 +550,31 @@ def chance():
       bal[ownedby[tile[p]]] += ((d1 + d2)*10)
       print('You paid $'+str((d1 + d2)*10)+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
   elif chanceorder[chancen] == 4:
-    print('todo') #same thing as above but i dont want to do rn--------------------------------
+    if tile[p] <= 5:
+      tile[p] = 5
+    elif tile[p] <= 15:
+      tile[p] = 15
+    elif tile[p] <= 25:
+      tile[p] = 25
+    elif tile[p] <= 35:
+      tile[p] = 35
+    else:
+      bal[p] += 200
+      print('You passed go, you now have $'+str(bal[p]))
+      tile[p] = 5
+    print('You are now at '+name[tile[p]])
+    rr = 0
+    if ownedby[tile[5]] == ownedby[tile[p]]:
+      rr += 1
+    if ownedby[tile[15]] == ownedby[tile[p]]:
+      rr += 1
+    if ownedby[tile[25]] == ownedby[tile[p]]:
+      rr += 1
+    if ownedby[tile[35]] == ownedby[tile[p]]:
+      rr += 1
+    bal[p] -= rrprice[rr]
+    bal[ownedby[tile[p]]] += rrprice[rr]
+    print('You paid $'+str(rrprice[rr])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
   elif chanceorder[chancen] == 5:
     bal[p] += 50
     print('You now have $'+str(bal[p]))
@@ -567,16 +593,14 @@ def chance():
     bal[p] -= 15
     print('You now have $'+str(bal[p]))
   elif chanceorder[chancen] == 11:
-    print('todo') #will take time I dont have
+    print('todo') #will take time I dont have--------------------------------------------------
   elif chanceorder[chancen] == 12:
-    print('todo') #will take time I dont have
+    print('todo') #will take time I dont have--------------------------------------------------
   elif chanceorder[chancen] == 13:
+    bal[p] -= 50*num
     for i in range(1,num):
       #if (alive[i]) == True:------------------------------------------------------------------
       bal[i] += 50
-    bal[p] -= 50*num
-    for i in range(1,num):
-      #if (alive[i]) == True:
       print(name[i]+' now has $'+str(bal[i]))
   elif chanceorder[chancen] == 14:
     bal[p] += 150
@@ -604,9 +628,9 @@ def land(): #for some reason utility didnt work---------------------------------
         bal[p] -= pricebuy[tile[p]]
         ownedby[tile[p]] = p
         print(name[p]+' now owns '+tilename[tile[p]]+' and has $'+str(bal[p]))
-        a == 1
+        a = 1
       elif response == 'n': #pass on property
-        a == 2
+        a = 2
       else:
         print('Please select y or n')
         continue

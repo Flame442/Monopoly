@@ -414,8 +414,8 @@ def cc():
     tile[p] = 10
     injail[p] = True
   elif ccorder[ccn] == 6:
-    for i in range(1,num):
     bal[p] += 50*num
+    for i in range(1,num):
       #if (alive[i]) == True:------------------------------------------------------------------
       bal[i] -= 50
       print(name[i]+' now has $'+str(bal[i]))
@@ -438,7 +438,7 @@ def cc():
     bal[p] += 25
     print('You now have $'+str(bal[p]))
   elif ccorder[ccn] == 14:
-    print('todo') #houses----------------------------------------------------------------------
+    housepay()
   ccn += 1
   if ccn > 16:
     shuffle(ccorder)
@@ -538,7 +538,7 @@ def chance():
     tile[p] = 10
     injail[p] = True
   elif chanceorder[chancen] == 9:
-    print('todo') #houses----------------------------------------------------------------------
+    housepay()
   elif chanceorder[chancen] == 10:
     bal[p] -= 15
     print('You now have $'+str(bal[p]))
@@ -587,12 +587,21 @@ def cchanceland():
   elif ismortgaged[tile[p]] == 1:
     print('This property is mortgaged.')
   elif ownedby[tile[p]] > 0: #pay rent
-    bal[p] -= rentprice[tile[p]*6+numhouse[tile[p]]]
-    bal[ownedby[tile[p]]] += rentprice[tile[p]*6+numhouse[tile[p]]]
+    if monopolytest(tile[p], 'm'):
+      bal[p] -= 2*(rentprice[tile[p]*6+numhouse[tile[p]]])
+      bal[ownedby[tile[p]]] += 2*(rentprice[tile[p]*6+numhouse[tile[p]]])
+      print('You paid $'+str(2*(rentprice[tile[p]*6+numhouse[tile[p]]]))+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
+    else:
+      bal[p] -= rentprice[tile[p]*6+numhouse[tile[p]]]
+      bal[ownedby[tile[p]]] += rentprice[tile[p]*6+numhouse[tile[p]]]
+      print('You paid $'+str(rentprice[tile[p]*6+numhouse[tile[p]]])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
     print('You paid $'+str(rentprice[tile[p]*6+numhouse[tile[p]]])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
 
-def land(): #for some reason utility didnt work------------------------------------------------
-  tile[p] += d1 + d2 #2x rent monopolies-------------------------------------------------------
+def housepay():
+  pass #---------------------------------------------------------------------------------------
+
+def land():
+  tile[p] += d1 + d2
   if tile[p] >= 40: #going past go
     tile[p] -= 40
     bal[p] += 200
@@ -622,11 +631,16 @@ def landnd():
   elif ismortgaged[tile[p]] == 1:
     print('This property is mortgaged.')
   elif ownedby[tile[p]] > 0 and rentprice[tile[p]] > -1: #pay rent
-    bal[p] -= rentprice[tile[p]*6+numhouse[tile[p]]]
-    bal[ownedby[tile[p]]] += rentprice[tile[p]*6+numhouse[tile[p]]]
-    print('You paid $'+str(rentprice[tile[p]*6+numhouse[tile[p]]])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
+    if monopolytest(tile[p], 'm'):
+      bal[p] -= 2*(rentprice[tile[p]*6+numhouse[tile[p]]])
+      bal[ownedby[tile[p]]] += 2*(rentprice[tile[p]*6+numhouse[tile[p]]])
+      print('You paid $'+str(2*(rentprice[tile[p]*6+numhouse[tile[p]]]))+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
+    else:
+      bal[p] -= rentprice[tile[p]*6+numhouse[tile[p]]]
+      bal[ownedby[tile[p]]] += rentprice[tile[p]*6+numhouse[tile[p]]]
+      print('You paid $'+str(rentprice[tile[p]*6+numhouse[tile[p]]])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
   elif ownedby[tile[p]] > 0 and rentprice == -1: #rr and utilities
-    if tile[p] == 12 or tile[p] == 28: #utility
+    if tile[p] in (12, 28): #utility | for some reason utility didnt work-----------
       if ownedby[12] == ownedby[28]: #own both
         bal[p] -= ((d1 + d2)*10)
         bal[ownedby[tile[p]]] += ((d1 + d2)*10)
@@ -635,7 +649,7 @@ def landnd():
         bal[p] -= ((d1 + d2)*4)
         bal[ownedby[tile[p]]] += ((d1 + d2)*4)
         print('You paid $'+str((d1 + d2)*4)+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.') 
-    elif tile[p] == 5 or tile[p] == 15 or tile[p] == 25 or tile[p] == 35:
+    elif tile[p] in (5, 15, 25, 35):
       rr = 0
       if ownedby[tile[5]] == ownedby[tile[p]]:
         rr += 1
@@ -736,14 +750,16 @@ def gamerun(): #code for changing player by turn
   return
 
 def debug(): #print debug info
+  db = 0 #manual switch
   print('id','price','owner','ism','mprice','numh','hprice','name') 
   a = 0
   while a < 40:
     print('{:2d} {:5d} {:5d} {:3d} {:6d} {:4d} {:6d} {}'.format(a,pricebuy[a],ownedby[a],ismortgaged[a],mortgageprice[a],numhouse[a],houseprice[a],tilename[a]))
-  #  b = 0
-   # while b < 6:
-    #  print('house',b,'=',rentprice[6*a+b])
-     # b += 1
+    if db == 1:
+      b = 0
+      while b < 6:
+        print('house',b,'=',rentprice[6*a+b])
+        b += 1
     a += 1
   print(bal[1:])
 
@@ -765,7 +781,6 @@ for i in range(17):
 print('')
 for i in range(16):
   print(str(i)+' '+chancename[i])
-print(chanceorder)
 debug()
 pregame()
 gamerun()

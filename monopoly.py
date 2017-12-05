@@ -3,7 +3,7 @@ from random import shuffle #plugin that makes cc and chance work
 #fix any int() w/o try:------------------------------------------------------------------------
 #test if mortgaged in house() / trade()--------------------------------------------------------
 name = ['', '', '', '', '', '', '', '', '']
-
+#Holiday fund gives 300 instead of 100---------------------------------------------------------
 def pregame(): #number and name of players
   i = 0
   while i == 0:
@@ -285,6 +285,7 @@ def jail(): #add test for 3 turns in jail force bail/goojf----------------------
       bal[p] -= 50
       print('You posted bail. You now have $'+str(bal[p]))
       injail[p] = False
+      roll()
       land()
       jr = 1
     elif choice == '2' and bal[p] < 50:
@@ -293,6 +294,7 @@ def jail(): #add test for 3 turns in jail force bail/goojf----------------------
       #remove goojf card
       print('You used your get out of jail free card.')
       injail[p] = False
+      roll()
       land()
       jr = 1
 
@@ -415,7 +417,7 @@ def cc():
     injail[p] = True
   elif ccorder[ccn] == 6:
     bal[p] += 50*num
-    for i in range(1,num):
+    for i in range(1,num+1):
       #if (alive[i]) == True:------------------------------------------------------------------
       bal[i] -= 50
       print(name[i]+' now has $'+str(bal[i]))
@@ -438,7 +440,7 @@ def cc():
     bal[p] += 25
     print('You now have $'+str(bal[p]))
   elif ccorder[ccn] == 14:
-    housepay()
+    housepay(40, 115)
   ccn += 1
   if ccn > 16:
     shuffle(ccorder)
@@ -538,7 +540,7 @@ def chance():
     tile[p] = 10
     injail[p] = True
   elif chanceorder[chancen] == 9:
-    housepay()
+    housepay(25, 100)
   elif chanceorder[chancen] == 10:
     bal[p] -= 15
     print('You now have $'+str(bal[p]))
@@ -549,7 +551,7 @@ def chance():
     cchanceland()
   elif chanceorder[chancen] == 13:
     bal[p] -= 50*num
-    for i in range(1,num):
+    for i in range(1,num+1):
       #if (alive[i]) == True:------------------------------------------------------------------
       bal[i] += 50
       print(name[i]+' now has $'+str(bal[i]))
@@ -595,16 +597,26 @@ def cchanceland():
       bal[p] -= rentprice[tile[p]*6+numhouse[tile[p]]]
       bal[ownedby[tile[p]]] += rentprice[tile[p]*6+numhouse[tile[p]]]
       print('You paid $'+str(rentprice[tile[p]*6+numhouse[tile[p]]])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
-    print('You paid $'+str(rentprice[tile[p]*6+numhouse[tile[p]]])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
 
-def housepay():
-  pass #---------------------------------------------------------------------------------------
+def housepay(h1, h2):
+  pay = 0
+  for i in range(40):
+    if ownedby[i] == p:
+      if numhouse[i] == 0:
+        pass
+      elif numhouse[i] == 5:
+        pay += h2
+      else:
+        pay += h1*numhouse[i]
+  bal[p] -= pay
+  print('You pay $'+str(pay)+' in repairs. You now have $'+str(bal[p]))
 
 def land():
   tile[p] += d1 + d2
   if tile[p] >= 40: #going past go
     tile[p] -= 40
     bal[p] += 200
+    print('You passed go! You now have $'+str(bal[p]))
   landnd()
 
 def landnd():
@@ -639,7 +651,7 @@ def landnd():
       bal[p] -= rentprice[tile[p]*6+numhouse[tile[p]]]
       bal[ownedby[tile[p]]] += rentprice[tile[p]*6+numhouse[tile[p]]]
       print('You paid $'+str(rentprice[tile[p]*6+numhouse[tile[p]]])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
-  elif ownedby[tile[p]] > 0 and rentprice == -1: #rr and utilities
+  elif ownedby[tile[p]] > 0 and rentprice[tile[p]] == -1: #rr and utilities
     if tile[p] in (12, 28): #utility | for some reason utility didnt work-----------
       if ownedby[12] == ownedby[28]: #own both
         bal[p] -= ((d1 + d2)*10)
@@ -664,7 +676,7 @@ def landnd():
       print('You paid $'+str(rrprice[rr])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
   elif ownedby[tile[p]] == -1: #other spaces
     if tile[p] in (0, 20):
-      pass
+      print('check') #-----------------------------------------remove this---------------------
     elif tile[p] in (2, 17, 33): #cc
       cc()
     elif tile[p] in (7, 22, 36): #chance
@@ -681,6 +693,24 @@ def landnd():
     elif tile[p] == 38:
       bal[p] -= 100
       print('You paid $100 of Super Tax. You now have $'+str(bal[p]))
+    else:
+      print('ownedby == -1 but still failed.\n',
+        tile[p] in (0, 20),'\n',
+        tile[p] in (2, 17, 33),'\n',
+        tile[p] in (7, 22, 36),'\n',
+        tile[p] == 10,'\n',
+        tile[p] == 30,'\n',
+        tile[p] == 4,'\n',
+        tile[p] == 38)
+  else:
+    print('fail overall.\n',
+    ownedby[tile[p]] == 0 and bal[p] >= pricebuy[tile[p]],'\n',
+    ownedby[tile[p]] == 0 and bal[p] < pricebuy[tile[p]],'\n',
+    ownedby[tile[p]] == p,'\n',
+    ismortgaged[tile[p]] == 1,'\n',
+    ownedby[tile[p]] > 0 and rentprice[tile[p]] > -1,'\n',
+    ownedby[tile[p]] > 0 and rentprice[tile[p]] == -1,'\n',
+    ownedby[tile[p]] == -1)
   if bal[p] < 0:
     debt() 
 

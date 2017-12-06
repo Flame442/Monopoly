@@ -3,7 +3,6 @@ from random import shuffle #plugin that makes cc and chance work
 #fix any int() w/o try:------------------------------------------------------------------------
 #test if mortgaged in house() / trade()--------------------------------------------------------
 name = ['', '', '', '', '', '', '', '', '']
-#Holiday fund gives 300 instead of 100---------------------------------------------------------
 def pregame(): #number and name of players
   i = 0
   while i == 0:
@@ -330,11 +329,11 @@ def mortgage():
   clear()
   while i == 0:
     a = 1
-    print('id isM name') #add mortgage value print, replace with .format-----------------------
+    print('id isM name') #add mortgage value print---------------------------------------------
     while a < mi:
       if monopolytest(a,'h') == False:
         if ismortgaged[mid[a]] == 1:
-          #print('{} {:1} {:1d} {}'.format(a,'+',mortgageprice[mid[a]]),tilename[mid[a]])
+          #print('{} {:1} {:1d} {}'.format(a,'+',mortgageprice[mid[a]]),tilename[mid[a]])------
           print(str(a)+'  +   '+tilename[mid[a]])
         else:
           print(str(a)+'      '+tilename[mid[a]])
@@ -514,7 +513,7 @@ def chance():
       bal[p] += 200
       print('You passed go, you now have $'+str(bal[p]))
       tile[p] = 5
-    print('You are now at '+name[tile[p]])
+    print('You are now at '+tilename[tile[p]])
     rr = 0
     if ownedby[tile[5]] == ownedby[tile[p]]:
       rr += 1
@@ -531,8 +530,7 @@ def chance():
     bal[p] += 50
     print('You now have $'+str(bal[p]))
   elif chanceorder[chancen] == 6:
-    #GOOJF CARD GIVE---------------------------------------------------------------------------
-    print('todo')
+    print('todo') #GOOJF-----------------------------------------------------------------------
   elif chanceorder[chancen] == 7:
     tile[p] -= 3
     landnd()
@@ -545,7 +543,22 @@ def chance():
     bal[p] -= 15
     print('You now have $'+str(bal[p]))
   elif chanceorder[chancen] == 11:
-    print('todo') #will take time I dont have--------------------------------------------------
+    if tile[p] > 5:
+      bal[p] += 200
+      print('You passed go, you now have $'+str(bal[p]))
+    tile[p] = 5
+    rr = 0
+    if ownedby[tile[5]] == ownedby[tile[p]]:
+      rr += 1
+    if ownedby[tile[15]] == ownedby[tile[p]]:
+      rr += 1
+    if ownedby[tile[25]] == ownedby[tile[p]]:
+      rr += 1
+    if ownedby[tile[35]] == ownedby[tile[p]]:
+      rr += 1
+    bal[p] -= rrprice[rr]
+    bal[ownedby[tile[p]]] += rrprice[rr]
+    print('You paid $'+str(rrprice[rr])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
   elif chanceorder[chancen] == 12:
     tile[p] = 39
     cchanceland()
@@ -652,7 +665,7 @@ def landnd():
       bal[ownedby[tile[p]]] += rentprice[tile[p]*6+numhouse[tile[p]]]
       print('You paid $'+str(rentprice[tile[p]*6+numhouse[tile[p]]])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
   elif ownedby[tile[p]] > 0 and rentprice[tile[p]] == -1: #rr and utilities
-    if tile[p] in (12, 28): #utility | for some reason utility didnt work-----------
+    if tile[p] in (12, 28): #utility
       if ownedby[12] == ownedby[28]: #own both
         bal[p] -= ((d1 + d2)*10)
         bal[ownedby[tile[p]]] += ((d1 + d2)*10)
@@ -676,7 +689,7 @@ def landnd():
       print('You paid $'+str(rrprice[rr])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
   elif ownedby[tile[p]] == -1: #other spaces
     if tile[p] in (0, 20):
-      print('check') #-----------------------------------------remove this---------------------
+      pass
     elif tile[p] in (2, 17, 33): #cc
       cc()
     elif tile[p] in (7, 22, 36): #chance
@@ -693,7 +706,7 @@ def landnd():
     elif tile[p] == 38:
       bal[p] -= 100
       print('You paid $100 of Super Tax. You now have $'+str(bal[p]))
-    else:
+    else: #--------------------------------------------------------<error test code>-----------
       print('ownedby == -1 but still failed.\n',
         tile[p] in (0, 20),'\n',
         tile[p] in (2, 17, 33),'\n',
@@ -710,7 +723,7 @@ def landnd():
     ismortgaged[tile[p]] == 1,'\n',
     ownedby[tile[p]] > 0 and rentprice[tile[p]] > -1,'\n',
     ownedby[tile[p]] > 0 and rentprice[tile[p]] == -1,'\n',
-    ownedby[tile[p]] == -1)
+    ownedby[tile[p]] == -1) #--------------------------------------</error test code>----------
   if bal[p] < 0:
     debt() 
 

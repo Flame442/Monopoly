@@ -46,6 +46,7 @@ mortgageprice = [-1, 50, -1, 50, -1, 100, 50, -1, 50, 60, -1, 70, 75, 70, 80, 10
 tenmortgageprice = [-1, 55, -1, 55, -1, 110, 55, -1, 55, 66, -1, 77, 83, 77, 88, 110, 99, -1, 99, 110, -1, 121, -1, 121, 132, 110, 154, 154, 83, 165, -1, 220, 220, -1, 220, 110, -1, 188, -1, 220]
 houseprice = [-1, 30, -1, 30, -1, -1, 50, -1, 50, 50, -1, 100, -1, 100, 100, -1, 100, -1, 100, 100, -1, 150, -1, 150, 150, -1, 150, 150, -1, 150, -1, 150, 150, -1, 150, -1, -1, 200, -1, 200]
 goojf = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
+alive = [-1, True, True, True, True, True, True, True, True]
 
 def monopolytest(t,test):
   pga = [1, 6, 11, 16, 21, 26, 31, 37]
@@ -67,12 +68,14 @@ def clear(): #just prints lots of blank lines
   for x in range(40):
     print('')
 
-def trade(): #add if player is still in game test and trade goojf card-------------------------
+def trade(): #add if player is still in game test----------------------------------------------
   clear()
   print('Select the player you want to trade with')
   a = 1
   monp = 0
   monn = 0
+  jp = 0
+  jn = 0
   tradeidp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   tradeidn = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ptotrade = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -114,9 +117,13 @@ def trade(): #add if player is still in game test and trade goojf card----------
       else:
         print(str(a)+'      '+tilename[tradeidp[a]])
       a += 1
-    print('And $'+str(monp))
+    print('$'+str(monp))
+    if jp == 1:
+      print(str(jp)+' get out of jail free card')
+    else:
+      print(str(jp)+' get out of jail free cards')
     print('')
-    print('Type the number of the properties you want to give, "m" to give money and "d" when you are done')
+    print('Type the number of the properties you want to give, "m" to give money, "j" to give get out of jail free cards, and "d" when you are done')
     t = input()
     try:
       if 0 < int(t) < pti and ptotrade[tradeidp[int(t)]] == 0:
@@ -137,6 +144,12 @@ def trade(): #add if player is still in game test and trade goojf card----------
       elif t == 'd':
         i = 2
         continue
+      elif t == 'j':
+        print('How many? You have '+str(goojf[p]))
+        jp = int(input())
+        if jp > goojf[p]:
+          jp = 0
+        continue
       else:
         continue
   a = 0
@@ -156,9 +169,13 @@ def trade(): #add if player is still in game test and trade goojf card----------
       else:
         print(str(a)+'      '+tilename[tradeidn[a]])
       a += 1
-    print('And $'+str(monn))
+    print('$'+str(monn))
+    if jn == 1:
+      print(str(jn)+' get out of jail free card')
+    else:
+      print(str(jn)+' get out of jail free cards')
     print('')
-    print('Type the number of the properties you want to take, "m" to take money and "d" when you are done')
+    print('Type the number of the properties you want to take, "m" to take money, "j" to take get out of jail free cards, and "d" when you are done')
     t = input()
     try:
       if 0 < int(t) < nti and ntotrade[tradeidn[int(t)]] == 0:
@@ -179,6 +196,12 @@ def trade(): #add if player is still in game test and trade goojf card----------
       elif t == 'd':
         i = 3
         continue
+      elif t == 'm':
+        print('How many? You have '+str(goojf[tradep]))
+        jn = int(input())
+        if jn > goojf[tradep]:
+          jn = 0
+        continue
       else:
         continue
   clear()
@@ -190,7 +213,11 @@ def trade(): #add if player is still in game test and trade goojf card----------
     if ptotrade[tradeidp[a]] == 1:
       print(tilename[tradeidp[a]])
     a += 1
-  print('And $'+str(monp))
+  print('$'+str(monp))
+  if jp == 1:
+    print(str(jp)+' get out of jail free card')
+  else:
+    print(str(jp)+' get out of jail free cards')
   print('')
   print('You will get:')
   a = 1
@@ -198,7 +225,11 @@ def trade(): #add if player is still in game test and trade goojf card----------
     if ntotrade[tradeidn[a]] == 1:
       print(tilename[tradeidn[a]])
     a += 1
-  print('And $'+str(monn))
+  print('$'+str(monn))
+  if jn == 1:
+    print(str(jn)+' get out of jail free card')
+  else:
+    print(str(jn)+' get out of jail free cards')
   print('')
   while i == 3:
     a = input()
@@ -221,7 +252,11 @@ def trade(): #add if player is still in game test and trade goojf card----------
       if ptotrade[tradeidp[a]] == 1:
         print(tilename[tradeidp[a]])
       a += 1
-    print('And $'+str(monp))
+    print('$'+str(monp))
+    if jp == 1:
+      print(str(jp)+' get out of jail free card')
+    else:
+      print(str(jp)+' get out of jail free cards')
     print('')
     print('You will give:')
     a = 1
@@ -229,7 +264,11 @@ def trade(): #add if player is still in game test and trade goojf card----------
       if ntotrade[tradeidn[a]] == 1:
         print(tilename[tradeidn[a]])
       a += 1
-    print('And $'+str(monn))
+    print('$'+str(monn))
+    if jn == 1:
+      print(str(jn)+' get out of jail free card')
+    else:
+      print(str(jn)+' get out of jail free cards')
     print('')
     while i == 4:
       a = input()
@@ -247,6 +286,10 @@ def trade(): #add if player is still in game test and trade goojf card----------
     bal[tradep] += monp
     bal[p] -= monp
     bal[tradep] -= monn
+    goojf[p] += jn
+    goojf[tradep] += jp
+    goojf[p] -= jp
+    goojf[tradep] -= jn
     a = 0
     while a < pti: 
       if ptotrade[tradeidp[a]] == 1:

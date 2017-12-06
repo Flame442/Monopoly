@@ -45,6 +45,7 @@ ismortgaged = [-1, 0, -1, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, -1, 0, 0,
 mortgageprice = [-1, 50, -1, 50, -1, 100, 50, -1, 50, 60, -1, 70, 75, 70, 80, 100, 90, -1, 90, 100, -1, 110, -1, 110, 120, 100, 140, 140, 75, 150, -1, 200, 200, -1, 200, 100, -1, 175, -1, 200]
 tenmortgageprice = [-1, 55, -1, 55, -1, 110, 55, -1, 55, 66, -1, 77, 83, 77, 88, 110, 99, -1, 99, 110, -1, 121, -1, 121, 132, 110, 154, 154, 83, 165, -1, 220, 220, -1, 220, 110, -1, 188, -1, 220]
 houseprice = [-1, 30, -1, 30, -1, -1, 50, -1, 50, 50, -1, 100, -1, 100, 100, -1, 100, -1, 100, 100, -1, 150, -1, 150, 150, -1, 150, 150, -1, 150, -1, 150, 150, -1, 150, -1, -1, 200, -1, 200]
+goojf = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
 
 def monopolytest(t,test):
   pga = [1, 6, 11, 16, 21, 26, 31, 37]
@@ -270,7 +271,7 @@ def roll(): #dice roll code callable
 
 def jail(): #add test for 3 turns in jail force bail/goojf-------------------------------------
   print(name[p]+' is in jail!')
-  if 1 == 1: #TURN INTO A IF GOOJF CARD TEST---------------------------------------------------
+  if goojf[p] > 0:
     print('Type 1 to roll, 2 to post bail, or 3 to use your "Get Out of Jail Free" card.')
   else:
     print('Type 1 to roll or 2 to post bail.') #replace with letters---------------------------
@@ -289,8 +290,8 @@ def jail(): #add test for 3 turns in jail force bail/goojf----------------------
       jr = 1
     elif choice == '2' and bal[p] < 50:
       print('You cannot afford bail, you only have $'+str(bal[p]))
-    elif choice == '3' and 1 == 1: #add goojf card test----------------------------------------
-      #remove goojf card
+    elif choice == '3' and goojf[p] > 0:
+      goojf[p] -= 1
       print('You used your get out of jail free card.')
       injail[p] = False
       roll()
@@ -409,8 +410,11 @@ def cc():
     bal[p] += 50
     print('You now have $'+str(bal[p]))
   elif ccorder[ccn] == 4:
-    #GOOJF CARD GIVE---------------------------------------------------------------------------
-    print('todo')
+    goojf[p] += 1
+    if goojf[p] == 1:
+      print('You now have '+str(goojf[p])+' get out of jail free card.')
+    else:
+      print('You now have '+str(goojf[p])+' get out of jail free cards.')
   elif ccorder[ccn] == 5:
     tile[p] = 10
     injail[p] = True
@@ -472,7 +476,7 @@ def chance():
     else:
       bal[p] += 200
       print('You passed go, you now have $'+str(bal[p]))
-      tile[p] = 12 #always 10 times rent if owned
+      tile[p] = 12 
     print('You are now at '+name[tile[p]])
     if ownedby[tile[p]] == 0 and bal[p] >= pricebuy[tile[p]]:
       print('Would you like to buy '+tilename[tile[p]]+' for $'+str(pricebuy[tile[p]])+'? (y/n) You have $'+str(bal[p])+'.')
@@ -530,7 +534,10 @@ def chance():
     bal[p] += 50
     print('You now have $'+str(bal[p]))
   elif chanceorder[chancen] == 6:
-    print('todo') #GOOJF-----------------------------------------------------------------------
+    if goojf[p] == 1:
+      print('You now have '+str(goojf[p])+' get out of jail free card.')
+    else:
+      print('You now have '+str(goojf[p])+' get out of jail free cards.')
   elif chanceorder[chancen] == 7:
     tile[p] -= 3
     landnd()
@@ -734,7 +741,7 @@ def turn():
   nod = 0
   clear()
   print(name[p]+'\'s turn!')
-  if injail[p] == True:
+  if injail[p]:
     jail()
   else:
     wd = 1
@@ -757,7 +764,7 @@ def turn():
             wd = 0
           else:
             land()
-          if injail[p] == True:
+          if injail[p]:
             wd = 0 #stops you from rolling doubles before going into jail and getting out 
           r = 1
         elif choice == '?': #run debug code

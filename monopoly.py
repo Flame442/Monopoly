@@ -530,6 +530,19 @@ def chance():
     bal[p] += 50
     print('You now have $'+str(bal[p]))
   elif chanceorder[chancen] == 6:
+    print('todo') #GOOJF-----------------------------------------------------------------------
+  elif chanceorder[chancen] == 7:
+    tile[p] -= 3
+    landnd()
+  elif chanceorder[chancen] == 8:
+    tile[p] = 10
+    injail[p] = True
+  elif chanceorder[chancen] == 9:
+    housepay(25, 100)
+  elif chanceorder[chancen] == 10:
+    bal[p] -= 15
+    print('You now have $'+str(bal[p]))
+  elif chanceorder[chancen] == 11:
     if tile[p] > 5:
       bal[p] += 200
       print('You passed go, you now have $'+str(bal[p]))
@@ -546,19 +559,6 @@ def chance():
     bal[p] -= rrprice[rr]
     bal[ownedby[tile[p]]] += rrprice[rr]
     print('You paid $'+str(rrprice[rr])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
-  elif chanceorder[chancen] == 7:
-    tile[p] -= 3
-    landnd()
-  elif chanceorder[chancen] == 8:
-    tile[p] = 10
-    injail[p] = True
-  elif chanceorder[chancen] == 9:
-    housepay(25, 100)
-  elif chanceorder[chancen] == 10:
-    bal[p] -= 15
-    print('You now have $'+str(bal[p]))
-  elif chanceorder[chancen] == 11:
-    print('todo') #will take time I dont have--------------------------------------------------
   elif chanceorder[chancen] == 12:
     tile[p] = 39
     cchanceland()

@@ -1,7 +1,6 @@
 from random import randint #plugin that makes dice work
 from random import shuffle #plugin that makes cc and chance work
 #fix any int() w/o try:------------------------------------------------------------------------
-#test if mortgaged in house() / trade()--------------------------------------------------------
 name = ['', '', '', '', '', '', '', '', '']
 def pregame(): #number and name of players
   i = 0
@@ -68,7 +67,7 @@ def clear(): #just prints lots of blank lines
   for x in range(40):
     print('')
 
-def trade(): #add if player is still in game test----------------------------------------------
+def trade():
   clear()
   print('Select the player you want to trade with')
   a = 1
@@ -82,7 +81,7 @@ def trade(): #add if player is still in game test-------------------------------
   ntotrade = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   while a < 9:
     if a <= num:
-      if a == p:
+      if a == p or not alive[a]:
         a += 1
         continue
       else:
@@ -94,12 +93,15 @@ def trade(): #add if player is still in game test-------------------------------
       continue
   i = 0
   while i != 1:
-    tradep = int(input())
-    if 1 <= tradep <= num and tradep != p:
-      i = 1
-    else:
+    try:
+      tradep = int(input())
+      if 1 <= tradep <= num and tradep != p and alive[tradep] == True:
+        i = 1
+      else:
+        print('Select one of the options')
+        continue
+    except:
       print('Select one of the options')
-      continue
   a = 0
   pti = 1
   while a < 40:
@@ -462,11 +464,11 @@ def cc():
     tile[p] = 10
     injail[p] = True
   elif ccorder[ccn] == 6:
-    bal[p] += 50*num
+    bal[p] += 50*numalive
     for i in range(1,num+1):
-      #if (alive[i]) == True:------------------------------------------------------------------
-      bal[i] -= 50
-      print(name[i]+' now has $'+str(bal[i]))
+      if alive[i]:
+        bal[i] -= 50
+        print(name[i]+' now has $'+str(bal[i]))
   elif ccorder[ccn] == 7 or ccorder[ccn] == 10 or ccorder[ccn] == 16:
     bal[p] += 100
     print('You now have $'+str(bal[p]))
@@ -598,13 +600,13 @@ def chance():
       print('You passed go, you now have $'+str(bal[p]))
     tile[p] = 5
     rr = 0
-    if ownedby[tile[5]] == ownedby[tile[p]]:
+    if ownedby[5] == ownedby[tile[p]]:
       rr += 1
-    if ownedby[tile[15]] == ownedby[tile[p]]:
+    if ownedby[15] == ownedby[tile[p]]:
       rr += 1
-    if ownedby[tile[25]] == ownedby[tile[p]]:
+    if ownedby[25] == ownedby[tile[p]]:
       rr += 1
-    if ownedby[tile[35]] == ownedby[tile[p]]:
+    if ownedby[35] == ownedby[tile[p]]:
       rr += 1
     bal[p] -= rrprice[rr]
     bal[ownedby[tile[p]]] += rrprice[rr]
@@ -613,11 +615,11 @@ def chance():
     tile[p] = 39
     cchanceland()
   elif chanceorder[chancen] == 13:
-    bal[p] -= 50*num
+    bal[p] -= 50*numalive
     for i in range(1,num+1):
-      #if (alive[i]) == True:------------------------------------------------------------------
-      bal[i] += 50
-      print(name[i]+' now has $'+str(bal[i]))
+      if alive[i]:
+        bal[i] += 50
+        print(name[i]+' now has $'+str(bal[i]))
   elif chanceorder[chancen] == 14:
     bal[p] += 150
     print('You now have $'+str(bal[p]))
@@ -726,13 +728,13 @@ def landnd():
         print('You paid $'+str((d1 + d2)*4)+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.') 
     elif tile[p] in (5, 15, 25, 35):
       rr = 0
-      if ownedby[tile[5]] == ownedby[tile[p]]:
+      if ownedby[5] == ownedby[tile[p]]:
         rr += 1
-      if ownedby[tile[15]] == ownedby[tile[p]]:
+      if ownedby[15] == ownedby[tile[p]]:
         rr += 1
-      if ownedby[tile[25]] == ownedby[tile[p]]:
+      if ownedby[25] == ownedby[tile[p]]:
         rr += 1
-      if ownedby[tile[35]] == ownedby[tile[p]]:
+      if ownedby[35] == ownedby[tile[p]]:
         rr += 1
       bal[p] -= rrprice[rr]
       bal[ownedby[tile[p]]] += rrprice[rr]

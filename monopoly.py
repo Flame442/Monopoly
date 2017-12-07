@@ -407,7 +407,6 @@ def debt():
 def mortgage():
   clear()
   mid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  a = 0
   mi = 1
   for a in range(40):
     if ownedby[a] == p and numhouse[a] <= 0:
@@ -478,7 +477,11 @@ def mortgage():
 
 def house():
   clear()
-  
+  hid = [0, 0, 0, 0, 0, 0, 0, 0]
+  hs = [1, 6, 11, 16, 21, 26, 31, 37]
+  for x in hs:
+    if monopolytest(x, 'm'):
+      pass
 
 def cc():
   global ccn
@@ -901,24 +904,8 @@ def debug(): #print debug info
     a += 1
   print(bal[1:])
 
-def listall(): #user friendly debug
-  a = 0
-  while a < 40:
-    if ownedby[a] == 0:
-      print(tilename[a]+' is not owned and costs $'+str(pricebuy[a])+'. Rent for '+tilename[a]+' costs $'+str(rentprice[6*a])+' for no houses, $'+str(rentprice[6*a+1])+' for one house, $'+str(rentprice[6*a+2])+' for two houses, $'+str(rentprice[6*a+3])+' for three houses, $'+str(rentprice[6*a+4])+' for four houses, and $'+str(rentprice[6*a+5])+' for a hotel.')
-      print('')
-    elif ownedby[a] > 0:  
-      print(tilename[a]+' is owned by '+name[ownedby[a]]+' and costs $'+str(pricebuy[a])+'. Rent for '+tilename[a]+' costs $'+str(rentprice[6*a])+' for no houses, $'+str(rentprice[6*a+1])+' for one house, $'+str(rentprice[6*a+2])+' for two houses, $'+str(rentprice[6*a+3])+' for three houses, $'+str(rentprice[6*a+4])+' for four houses, and $'+str(rentprice[6*a+5])+' for a hotel.')
-      print('')
-    a += 1
-
 #start of run code
 print('Welcome to Monopoly. How many players?')
-for i in range(17):
-  print(str(i)+' '+ccname[i])
-print('')
-for i in range(16):
-  print(str(i)+' '+chancename[i])
 debug()
 pregame()
 gamerun()

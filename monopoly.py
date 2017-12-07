@@ -46,10 +46,11 @@ tenmortgageprice = [-1, 55, -1, 55, -1, 110, 55, -1, 55, 66, -1, 77, 83, 77, 88,
 houseprice = [-1, 30, -1, 30, -1, -1, 50, -1, 50, 50, -1, 100, -1, 100, 100, -1, 100, -1, 100, 100, -1, 150, -1, 150, 150, -1, 150, 150, -1, 150, -1, 150, 150, -1, 150, -1, -1, 200, -1, 200]
 goojf = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
 alive = [-1, True, True, True, True, True, True, True, True]
+jailturn = [-1, -1, -1, -1, -1, -1, -1, -1, -1]
 
 def monopolytest(t,test):
   pga = [1, 6, 11, 16, 21, 26, 31, 37]
-  pgb = [3, 8, 13, 18, 23, 27, 32, 39] 
+  pgb = [3, 8, 13, 18, 23, 27, 32, 39]
   pgc = [3, 9, 14, 19, 24, 29, 34, 39]
   if test == 'm':
     for i in range(7):
@@ -314,42 +315,66 @@ def roll(): #dice roll code callable
   else:
     print(name[p]+' rolled a '+str(d1)+' and a '+str(d2))
 
-def jail(): #add test for 3 turns in jail force bail/goojf-------------------------------------
+def jail():
   print(name[p]+' is in jail!')
+  if jailturn[p] == -1:
+    jailturn[p] = 0
+  jailturn[p] += 1
   if goojf[p] > 0:
-    print('Type 1 to roll, 2 to post bail, or 3 to use your "Get Out of Jail Free" card.')
+    if jailturn[p] == 4:
+      print('Your 3 turns in jail are up. Type "b" to post bail, or "g" to use your "Get Out of Jail Free" card.')
+    else:
+      print('Type "r" to roll, "b" to post bail, or "g" to use your "Get Out of Jail Free" card.')
   else:
-    print('Type 1 to roll or 2 to post bail.') #replace with letters---------------------------
+    if jailturn[p] == 4:
+      print('Your 3 turns in jail are up. You have to type "b" to post bail.')
+    else:
+      print('Type "r" to roll or "b" to post bail.')
   choice = input()
   jr = 0
   while jr == 0:
-    if choice == '1': #will code later but idk i dont really want to rn tbh--------------------
-      jr = 1
-      injail[p] = False
-    elif choice == '2' and bal[p] >= 50:
+    if choice == 'r' and not jailturn[p] == 4:
+      roll()
+      if d1 == d2:
+        print('You rolled out of jail.')
+        jailturn[p] = -1
+        injail[p] = False
+        land()
+        jr = 1
+      else:
+        print('Sorry, not doubles')
+        jr = 1
+    elif choice == 'r' and jailturn[p] == 4:
+      print('Select one of the options.')
+    elif choice == 'b' and bal[p] >= 50:
       bal[p] -= 50
       print('You posted bail. You now have $'+str(bal[p]))
+      jailturn[p] = -1
       injail[p] = False
       roll()
       land()
       jr = 1
-    elif choice == '2' and bal[p] < 50:
+    elif choice == 'b' and bal[p] < 50:
       print('You cannot afford bail, you only have $'+str(bal[p]))
-    elif choice == '3' and goojf[p] > 0:
+    elif choice == 'g' and goojf[p] > 0:
       goojf[p] -= 1
       print('You used your get out of jail free card.')
+      jailturn[p] = -1
       injail[p] = False
       roll()
       land()
       jr = 1
+    else:
+      print('Select one of the options.')
 
-def debt(): #add giving up---------------------------------------------------------------------
+def debt():
   while bal[p] < 0:
     print('You are in debt. You have $'+str(bal[p])+'.')
     print('Select an option to get out of debt:')
     print('t: Trade')
     print('m: Mortgage')
     print('h: Sell Houses')
+    print('g: Give up')
     choice = input()
     if choice == 't':
       trade()
@@ -357,6 +382,24 @@ def debt(): #add giving up------------------------------------------------------
       mortgage()
     elif choice == 'h':
       house()
+    elif choice == 'g':
+      a = 0
+      while a == 0:
+        print('Are you sure? (y/n)')
+        choice = input()
+        if choice == 'y':
+          a = 1
+          for i in range(40):
+            if ownedby[i] == p:
+              ownedby[i] = 0
+              numhouse[i] = 0
+              ismortgaged[i] = 0
+          alive[p] = False
+          print(name[p]+' is now out of the game.')
+        elif choice == 'n':
+          a = 1
+        else:
+          print('Select one of the options')
     else:
       print('Select one of the options')
   print('You are now out of debt. You now have $'+str(bal[p]))
@@ -819,7 +862,7 @@ def turn():
         elif choice == 'm': #mortgage
           mortgage()
   r = 1
-  while r == 1:
+  while r == 1 and alive[p] == 1:
     print('Type t to trade, m to mortgage, or d when done')
     choice = input()
     if choice == 't':
@@ -840,7 +883,8 @@ def gamerun(): #code for changing player by turn
   while numalive >= 2:
     if p > num:
       p = 1
-    turn()
+    if alive[p]:
+      turn()
     p += 1
   return
 

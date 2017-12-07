@@ -409,23 +409,21 @@ def mortgage():
   mid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   a = 0
   mi = 1
-  while a < 40:
+  for a in range(40):
     if ownedby[a] == p and numhouse[a] <= 0:
       mid[mi] = a
       mi += 1
-    a += 1
   i = 0
   clear()
   while i == 0:
     a = 1
-    print('id isM name') #add mortgage value print---------------------------------------------
+    print('id isM price name')
     while a < mi:
       if monopolytest(a,'h') == False:
         if ismortgaged[mid[a]] == 1:
-          #print('{} {:1} {:1d} {}'.format(a,'+',mortgageprice[mid[a]]),tilename[mid[a]])------
-          print(str(a)+'  +   '+tilename[mid[a]])
+          print('{:2}   + {:5d} {}'.format(a,mortgageprice[mid[a]],tilename[mid[a]]))
         else:
-          print(str(a)+'      '+tilename[mid[a]])
+          print('{:2}     {:5d} {}'.format(a,mortgageprice[mid[a]],tilename[mid[a]]))
       a += 1
     t = input()
     try:
@@ -479,7 +477,8 @@ def mortgage():
         print('Select one of the options')
 
 def house():
-  print('no') #mortgage test-------------------------------------------------------------------
+  clear()
+  
 
 def cc():
   global ccn

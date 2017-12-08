@@ -405,7 +405,6 @@ def debt():
   print('You are now out of debt. You now have $'+str(bal[p]))
 
 def mortgage():
-  clear()
   mid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   mi = 1
   for a in range(40):
@@ -416,6 +415,7 @@ def mortgage():
   clear()
   while i == 0:
     a = 1
+    print('Select the property you want to mortgage')
     print('id isM price name')
     while a < mi:
       if monopolytest(a,'h') == False:
@@ -477,11 +477,28 @@ def mortgage():
 
 def house():
   clear()
-  hid = [0, 0, 0, 0, 0, 0, 0, 0]
+  hid = [0, 0, 0, 0, 0, 0, 0, 0, 0]
   hs = [1, 6, 11, 16, 21, 26, 31, 37]
+  color = {1:'Brown',6:'Light Blue',11:'Pink',16:'Orange',21:'Red',26:'Yellow',31:'Green',37:'Dark Blue'}
+  hdic = {1:[1,3],6:[6,8,9],11:[11,13,14],16:[16,18,19],21:[21,23,24],26:[26,27,29],31:[31,32,34],37:[37,39]}
+  hi = 1
   for x in hs:
-    if monopolytest(x, 'm'):
-      pass
+    if monopolytest(x, 'm') and ownedby[x] == p:
+      hid[hi] = x
+      hi += 1
+  i = 0
+  while i == 0:
+    a = 1
+    print('Select the property you want to mortgage')
+    print('id numh price name')
+    while a < hi:
+      if monopolytest(a,'h') == False:
+        print('{:2} {:4} {:5d} {}'.format(a,numhouse[hid[a]],houseprice[hid[a]],color[hid[a]]))
+      a += 1
+    t = input()
+    if t == 'd':
+      i = 1
+  
 
 def cc():
   global ccn
@@ -839,7 +856,7 @@ def turn():
     while wd == 1:
       r = 0
       while r == 0:
-        print('Type r to roll, t to trade, or m to mortgage.')
+        print('Type r to roll, t to trade, h to manage houses, or m to mortgage.')
         choice = input()
         if choice == 'r': #normal turn 
           roll()
@@ -863,9 +880,11 @@ def turn():
           trade()
         elif choice == 'm': #mortgage
           mortgage()
+        elif choice == 'h':
+          house()
   r = 1
   while r == 1 and alive[p] == 1:
-    print('Type t to trade, m to mortgage, or d when done')
+    print('Type t to trade, m to mortgage, h to manage houses, or d when done')
     choice = input()
     if choice == 't':
       trade()
@@ -875,6 +894,8 @@ def turn():
       debug()
     elif choice == 'm':
       mortgage()
+    elif choice == 'h':
+      house()
 
 def gameover(): #game over code after someone wins
   print('Game Over') #temp code----------------------------------------------------------------

@@ -48,27 +48,27 @@ goojf = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
 alive = [-1, True, True, True, True, True, True, True, True]
 jailturn = [-1, -1, -1, -1, -1, -1, -1, -1, -1]
 
-def monopolytest(t,test):
+def monopolytest(t,test): #tests if prop in monopoly or any prop in color group has houses
   pga = [1, 6, 11, 16, 21, 26, 31, 37]
   pgb = [3, 8, 13, 18, 23, 27, 32, 39]
   pgc = [3, 9, 14, 19, 24, 29, 34, 39]
   if test == 'm':
-    for i in range(7):
+    for i in range(8):
       if bool(bool(t == pga[i] or t == pgb[i] or t == pgc[i]) and bool(ownedby[pga[i]] == ownedby[pgb[i]] == ownedby[pgc[i]]) and bool(ownedby[pga[i]] != 0)):
         return True
     return False
   elif test == 'h':
-    for i in range(7):
+    for i in range(8):
       if bool(bool(t == pga[i] or t == pgb[i] or t == pgc[i]) and bool(bool(numhouse[pga[i]] != 0) or bool(numhouse[pgb[i]] != 0) or bool(numhouse[pgc[i]]) != 0) and bool(ownedby[pga[i]] != 0)):
         return True
     return False
   return False
 
 def clear(): #just prints lots of blank lines
-  for x in range(40):
+  for x in range(60):
     print('')
 
-def trade():
+def trade(): #trades between players, messy don't even try to read...
   clear()
   print('Select the player you want to trade with')
   a = 1
@@ -305,7 +305,7 @@ def trade():
       a += 1
   print('Back to '+name[p]+'\'s turn!')
   
-def roll(): #dice roll code callable
+def roll(): #rolls d1 and d2 (1-6) and prints if 'doubles'
   global d1
   global d2
   d1 = randint(1,6)
@@ -315,7 +315,7 @@ def roll(): #dice roll code callable
   else:
     print(name[p]+' rolled a '+str(d1)+' and a '+str(d2))
 
-def jail():
+def jail(): #turn code when in jail
   print(name[p]+' is in jail!')
   if jailturn[p] == -1:
     jailturn[p] = 0
@@ -367,7 +367,7 @@ def jail():
     else:
       print('Select one of the options.')
 
-def debt():
+def debt(): #player balance below 0 turn code
   while bal[p] < 0:
     print('You are in debt. You have $'+str(bal[p])+'.')
     print('Select an option to get out of debt:')
@@ -404,7 +404,7 @@ def debt():
       print('Select one of the options')
   print('You are now out of debt. You now have $'+str(bal[p]))
 
-def mortgage():
+def mortgage(): #mortgage properties 
   mid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   mi = 1
   for a in range(40):
@@ -475,7 +475,7 @@ def mortgage():
         clear()
         print('Select one of the options')
 
-def house():
+def house(): #buy/sell houses
   clear()
   hid = [0, 0, 0, 0, 0, 0, 0, 0, 0]
   hs = [1, 6, 11, 16, 21, 26, 31, 37]
@@ -484,23 +484,27 @@ def house():
   hi = 1
   for x in hs:
     if monopolytest(x, 'm') and ownedby[x] == p:
-      hid[hi] = x
-      hi += 1
+      z = 0
+      for y in hdic[x]:
+        if ismortgaged[y]:
+          z = 1
+      if z == 0:
+        hid[hi] = x
+        hi += 1
   i = 0
   while i == 0:
     a = 1
-    print('Select the property you want to mortgage')
+    print('Select the color groups to buy houses')
     print('id numh price name')
     while a < hi:
-      if monopolytest(a,'h') == False:
-        print('{:2} {:4} {:5d} {}'.format(a,numhouse[hid[a]],houseprice[hid[a]],color[hid[a]]))
+      print('{:2} {:4} {:5d} {}'.format(a,numhouse[hid[a]],houseprice[hid[a]],color[hid[a]]))
       a += 1
     t = input()
     if t == 'd':
       i = 1
   
 
-def cc():
+def cc(): #get a cc card
   global ccn
   print('Your card reads:\n'+ccname[ccorder[ccn]])
   if ccorder[ccn] == 0:
@@ -556,7 +560,7 @@ def cc():
     shuffle(ccorder)
     ccn = 0
 
-def chance(): 
+def chance(): #get a chance card
   global chancen
   print('Your card reads:\n'+chancename[chanceorder[chancen]])
   if chanceorder[chancen] == 0:
@@ -693,7 +697,7 @@ def chance():
     shuffle(chanceorder)
     chancen = 0
 
-def cchanceland():
+def cchanceland(): #reduced land() code for cchance moves
   if ownedby[tile[p]] == 0 and bal[p] >= pricebuy[tile[p]]:
     print('Would you like to buy '+tilename[tile[p]]+' for $'+str(pricebuy[tile[p]])+'? (y/n) You have $'+str(bal[p])+'.')
     a = 0
@@ -725,7 +729,7 @@ def cchanceland():
       bal[ownedby[tile[p]]] += rentprice[tile[p]*6+numhouse[tile[p]]]
       print('You paid $'+str(rentprice[tile[p]*6+numhouse[tile[p]]])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
 
-def housepay(h1, h2):
+def housepay(h1, h2): #pay for houses and hotels in cchance cards
   pay = 0
   for i in range(40):
     if ownedby[i] == p:
@@ -738,7 +742,7 @@ def housepay(h1, h2):
   bal[p] -= pay
   print('You pay $'+str(pay)+' in repairs. You now have $'+str(bal[p]))
 
-def land():
+def land(): #move player
   tile[p] += d1 + d2
   if tile[p] >= 40: #going past go
     tile[p] -= 40
@@ -746,7 +750,7 @@ def land():
     print('You passed go! You now have $'+str(bal[p]))
   landnd()
 
-def landnd():
+def landnd(): #affecting properties
   print(name[p]+' landed at '+tilename[tile[p]])
   if ownedby[tile[p]] == 0 and bal[p] >= pricebuy[tile[p]]: #unowned and can afford
     print('Would you like to buy '+tilename[tile[p]]+' for $'+str(pricebuy[tile[p]])+'? (y/n) You have $'+str(bal[p])+'.')
@@ -841,7 +845,7 @@ def landnd():
   if bal[p] < 0:
     debt() 
 
-def turn(): 
+def turn(): #choices on turn
   global p
   global tile
   global bal

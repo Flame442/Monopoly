@@ -500,9 +500,29 @@ def house(): #buy/sell houses
       print('{:2} {:4} {:5d} {}'.format(a,numhouse[hid[a]],houseprice[hid[a]],color[hid[a]]))
       a += 1
     t = input()
-    if t == 'd':
-      i = 1
-  
+    try:
+      t = int(t)
+      if 0 < t < hi:
+        ii = 0
+        while ii == 0:
+          print('New house amount?')
+          try:
+            t = int(input())
+            if 0 <= t <= 5:
+              pass
+              #CODE FOR CHANGING HOUSE NUMVERS
+            else:
+              print('Select a number from 0 to 5')
+          except:
+            print('Select a number from 0 to 5')
+      else:
+        print('Select one of the options')
+    except:
+      if t == 'd':
+        i = 1
+      else:
+        print('Select one of the options')
+
 
 def cc(): #get a cc card
   global ccn

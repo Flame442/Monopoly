@@ -506,11 +506,26 @@ def house(): #buy/sell houses
             tt = int(input())
             if tt == numhouse[hid[t]]:
               print('You already have that many houses!')
-            if 0 <= tt <= 5 and tt != numhouse[hid[t]]:
+            elif 0 <= tt <= 5:
+              iii = 0
               if tt > numhouse[hid[t]]:
-                pass #-------------------------------------------------------------------------
+                #house buy
+                iii = 1
+              elif tt > numhouse[hid[t]] and bal[p] : #cant afford, make work with 2 and 3
+                pass
               else:
-                print('Are you sure you want to lose '+str(t-numhouse[hid[t]])+' houses? You will get $'+str(houseprice[hid[t]]//2))
+                print('Are you sure you want to lose '+str(numhouse[hid[t]]-tt)+' houses? You will get $'+str(houseprice[hid[t]]//2))
+                ttt = input()
+                while iii = 0:
+                  if ttt == 'y':
+                    for x in hdic[hid[t]]:
+                      numhouse[x] = tt
+                      bal[p] += houseprice[x]//2
+                    iii = 1
+                  elif ttt = 'n':
+                    iii = 1
+                  else:
+                    print('Select y or n')
               ii = 1 #CODE FOR CHANGING HOUSE NUMBERS
             else:
               print('Select a number from 0 to 5')

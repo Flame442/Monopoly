@@ -1,10 +1,8 @@
-from random import randint, shuffle #plugin that makes dice work, plugin that makes cc and chance work
+from random import randint, shuffle
 name = ['', '', '', '', '', '', '', '', ''] #fix any int() w/o try:----------------------------
 print('Welcome to Monopoly. How many players?')
 i = 0 #number and name of players
 while i == 0:
-  global num #remove globals?????
-  global numalive
   try:
     num = int(input())
     if num < 2 or num > 8:
@@ -505,13 +503,22 @@ def house(): #buy/sell houses
         while ii == 0:
           print('New house amount?')
           try:
-            t = int(input())
-            if 0 <= t <= 5:
-              ii = 1 #CODE FOR CHANGING HOUSE NUMVERS
+            tt = int(input())
+            if tt == numhouse[hid[t]]:
+              print('You already have that many houses!')
+            if 0 <= tt <= 5 and tt != numhouse[hid[t]]:
+              if tt > numhouse[hid[t]]:
+                pass #-------------------------------------------------------------------------
+              else:
+                print('Are you sure you want to lose '+str(t-numhouse[hid[t]])+' houses? You will get $'+str(houseprice[hid[t]]//2))
+              ii = 1 #CODE FOR CHANGING HOUSE NUMBERS
             else:
               print('Select a number from 0 to 5')
           except:
-            print('Select a number from 0 to 5')
+            if tt == 'd':
+              ii = 1
+            else:
+              print('Select a number from 0 to 5')
       else:
         print('Select one of the options')
     except:

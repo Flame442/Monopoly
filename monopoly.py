@@ -1,26 +1,24 @@
-from random import randint #plugin that makes dice work
-from random import shuffle #plugin that makes cc and chance work
-#fix any int() w/o try:------------------------------------------------------------------------
-name = ['', '', '', '', '', '', '', '', '']
-def pregame(): #number and name of players
-  i = 0
-  while i == 0:
-    global num
-    global numalive
-    try:
-      num = int(input())
-      if num < 2 or num > 8:
-        print('Please select a number between 2 and 8')
-      else:
-        numalive = num #set number of players still in the game for later
-        i = 1
-    except:
+from random import randint, shuffle #plugin that makes dice work, plugin that makes cc and chance work
+name = ['', '', '', '', '', '', '', '', ''] #fix any int() w/o try:----------------------------
+print('Welcome to Monopoly. How many players?')
+i = 0 #number and name of players
+while i == 0:
+  global num #remove globals?????
+  global numalive
+  try:
+    num = int(input())
+    if num < 2 or num > 8:
       print('Please select a number between 2 and 8')
-  a = 1
-  while a <= num:
-    print('Name for player '+str(a)+'?')
-    name[a] = input()
-    a += 1
+    else:
+      numalive = num #set number of players still in the game for later
+      i = 1
+  except:
+    print('Please select a number between 2 and 8')
+a = 1
+while a <= num:
+  print('Name for player '+str(a)+'?')
+  name[a] = input()
+  a += 1
 
 injail = [-1, False, False, False, False, False, False, False, False]
 tile = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -509,8 +507,7 @@ def house(): #buy/sell houses
           try:
             t = int(input())
             if 0 <= t <= 5:
-              pass
-              #CODE FOR CHANGING HOUSE NUMVERS
+              ii = 1 #CODE FOR CHANGING HOUSE NUMVERS
             else:
               print('Select a number from 0 to 5')
           except:
@@ -522,7 +519,6 @@ def house(): #buy/sell houses
         i = 1
       else:
         print('Select one of the options')
-
 
 def cc(): #get a cc card
   global ccn
@@ -740,7 +736,7 @@ def cchanceland(): #reduced land() code for cchance moves
   elif ismortgaged[tile[p]] == 1:
     print('This property is mortgaged.')
   elif ownedby[tile[p]] > 0: #pay rent
-    if monopolytest(tile[p], 'm'):
+    if monopolytest(tile[p], 'm') and numhouse[tile[p]] == 0:
       bal[p] -= 2*(rentprice[tile[p]*6+numhouse[tile[p]]])
       bal[ownedby[tile[p]]] += 2*(rentprice[tile[p]*6+numhouse[tile[p]]])
       print('You paid $'+str(2*(rentprice[tile[p]*6+numhouse[tile[p]]]))+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
@@ -793,7 +789,7 @@ def landnd(): #affecting properties
     print('You own this property already.')
   elif ismortgaged[tile[p]] == 1:
     print('This property is mortgaged.')
-  elif ownedby[tile[p]] > 0 and rentprice[tile[p]] > -1: #pay rent
+  elif ownedby[tile[p]] > 0 and rentprice[tile[p]] > -1 and numhouse[tile[p]] == 0: #pay rent
     if monopolytest(tile[p], 'm'):
       bal[p] -= 2*(rentprice[tile[p]*6+numhouse[tile[p]]])
       bal[ownedby[tile[p]]] += 2*(rentprice[tile[p]*6+numhouse[tile[p]]])
@@ -876,7 +872,6 @@ def turn(): #choices on turn
     jail()
   else:
     wd = 1
-    r = 0
     while wd == 1:
       r = 0
       while r == 0:
@@ -895,8 +890,6 @@ def turn(): #choices on turn
             wd = 0
           else:
             land()
-          if injail[p]:
-            wd = 0 #stops you from rolling doubles before going into jail and getting out 
           r = 1
         elif choice == '?': #run debug code
           debug()
@@ -950,8 +943,6 @@ def debug(): #print debug info
   print(bal[1:])
 
 #start of run code
-print('Welcome to Monopoly. How many players?')
 debug()
-pregame()
 gamerun()
 gameover()

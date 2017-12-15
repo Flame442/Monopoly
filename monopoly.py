@@ -495,11 +495,11 @@ def house(): #buy/sell houses
     while a < hi:
       print('{:2} {:4} {:5d} {}'.format(a,numhouse[hid[a]],houseprice[hid[a]],color[hid[a]]))
       a += 1
-    t = input()
-    try:
-      t = int(t)
-      if 0 < t < hi:
-        ii = 0
+    t = input()                      # t            : Color group number identifier
+    try:                             # tt           : Number of houses to change to
+      t = int(t)                     # ttt          : y/n to confirm
+      if 0 < t < hi:                 # hid[t]       : first prop number in color group
+        ii = 0                       # hdic[hid[t]] : list of 2 or 3 props in color group
         while ii == 0:
           print('New house amount?')
           try:
@@ -508,24 +508,28 @@ def house(): #buy/sell houses
               print('You already have that many houses!')
             elif 0 <= tt <= 5:
               iii = 0
-              if tt > numhouse[hid[t]]:
-                #house buy
-                iii = 1
-              elif tt > numhouse[hid[t]] and bal[p] : #cant afford, make work with 2 and 3
-                pass
-              else:
-                print('Are you sure you want to lose '+str(numhouse[hid[t]]-tt)+' houses? You will get $'+str(houseprice[hid[t]]//2))
+              amount = 0
+              if tt < numhouse[hid[t]]:
+                for x in hdic[hid[t]]:
+                  amount += (numhouse[hid[t]]-tt)*(houseprice[hid[t]]//2) #MAKE SURE WORKS
+                print('Are you sure you want to lose '+str(numhouse[hid[t]]-tt)+' houses on '+color[hid[t]]+'? You will get $'+str(amount))
                 ttt = input()
-                while iii = 0:
+                while iii == 0:
                   if ttt == 'y':
                     for x in hdic[hid[t]]:
                       numhouse[x] = tt
-                      bal[p] += houseprice[x]//2
+                    bal[p] += amount
+                    print('You now have '+str(bal[p]))
                     iii = 1
-                  elif ttt = 'n':
+                  elif ttt == 'n':
                     iii = 1
                   else:
                     print('Select y or n')
+              elif tt > numhouse[hid[t]]:
+                if bal[p] <
+                iii = 1
+              else:
+                #error
               ii = 1 #CODE FOR CHANGING HOUSE NUMBERS
             else:
               print('Select a number from 0 to 5')

@@ -472,6 +472,7 @@ def mortgage(): #mortgage properties
         print('Select one of the options')
 
 def house(): #buy/sell houses
+  doprint = False
   io = 0
   while io == 0:
     clear()
@@ -538,7 +539,7 @@ def house(): #buy/sell houses
             for x in hdic[hid[t]]:
               numhouse[x] = tt
             bal[p] += amount
-            print('You now have $'+str(bal[p]))
+            doprint = True
             i = 3
           elif ttt == 'n':
             i = 3
@@ -558,7 +559,7 @@ def house(): #buy/sell houses
               for x in hdic[hid[t]]:
                 numhouse[x] = ttt
               bal[p] -= amount
-              print('You now have $'+str(bal[p]))
+              doprint = True
               i = 3
             elif ttt == 'n':
               i = 3
@@ -567,6 +568,8 @@ def house(): #buy/sell houses
       else:
         print('error?')
     clear()
+    if doprint:
+      print('You now have $'+str(bal[p]))
 
 def cc(): #get a cc card
   global ccn

@@ -499,54 +499,57 @@ def house(): #buy/sell houses
     try:                             # tt           : Number of houses to change to
       t = int(t)                     # ttt          : y/n to confirm
       if 0 < t < hi:                 # hid[t]       : first prop number in color group
-        ii = 0                       # hdic[hid[t]] : list of 2 or 3 props in color group
-        print('Enter a new house amount or "c" to cancel') 
-        while ii == 0: #MOVE ALL OF i's TO SEPPERATE LINES!!!----------------------------------
-          tt = input()
-          try:
-            tt = int(tt)
-            if tt == numhouse[hid[t]]:
-              print('You already have that many houses!')
-            elif 0 <= tt <= 5:
-              iii = 0
-              amount = 0
-              if tt < numhouse[hid[t]]: #losing houses
-                for x in hdic[hid[t]]:
-                  amount += (numhouse[hid[t]]-tt)*(houseprice[hid[t]]//2) #MAKE SURE WORKS-----
-                print('Are you sure you want to lose '+str(numhouse[hid[t]]-tt)+' houses on '+color[hid[t]]+'? You will get $'+str(amount))
-                ttt = input()
-                while iii == 0:
-                  if ttt == 'y':
-                    for x in hdic[hid[t]]:
-                      numhouse[x] = tt
-                    bal[p] += amount
-                    print('You now have '+str(bal[p]))
-                    iii = 1
-                  elif ttt == 'n':
-                    iii = 1
-                  else:
-                    print('Select y or n')
-              elif tt > numhouse[hid[t]]: #gaining houses
-                if bal[p] < 
-                iii = 1
-              else:
-                print('error?')
-                #error
-              ii = 1 #CODE FOR CHANGING HOUSE NUMBERS
-            else:
-              print('Select a number from 0 to 5')
-          except:
-            if tt == 'c':
-              ii = 1
-            else:
-              print('Select a number from 0 to 5')
+        i = 1                        # hdic[hid[t]] : list of 2 or 3 props in color group
       else:
         print('Select one of the options')
     except:
       if t == 'd':
-        i = 1
+        i = 10
       else:
         print('Select one of the options')
+  print('Enter a new house amount or "c" to cancel') 
+  while i == 1:
+    tt = input()
+    try:
+      tt = int(tt)
+      if tt == numhouse[hid[t]]:
+        print('You already have that many houses!')
+      elif 0 <= tt <= 5:
+        i = 2
+      else:
+        print('Select a number from 0 to 5')
+    except:
+      if tt == 'c':
+        i = 10
+      else:
+        print('Select a number from 0 to 5')
+  amount = 0
+  if tt < numhouse[hid[t]]: #losing houses
+    for x in hdic[hid[t]]:
+      amount += (numhouse[hid[t]]-tt)*(houseprice[hid[t]]//2) #MAKE SURE WORKS-----------------
+    print('Are you sure you want to lose '+str(numhouse[hid[t]]-tt)+' houses on '+color[hid[t]]+'? You will get $'+str(amount))
+    ttt = input()
+    while i == 2:
+      if ttt == 'y':
+        for x in hdic[hid[t]]:
+          numhouse[x] = tt
+        bal[p] += amount
+        print('You now have '+str(bal[p]))
+        i = 3
+      elif ttt == 'n':
+        i = 3
+      else:
+        print('Select y or n')
+  elif tt > numhouse[hid[t]]: #gaining houses
+    for x in hdic[hid[t]]:
+      amount += (tt-numhouse[hid[t]])*(houseprice[hid[t]])
+    if bal[p] < amount:
+      print('You do not have enough money. You need $'+str(amount-bal[p])+' more.')
+    else:
+      pass #-----------------------------------------------------------------------------------
+    i = 3
+  else:
+    print('error?')
 
 def cc(): #get a cc card
   global ccn

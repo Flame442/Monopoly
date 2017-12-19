@@ -472,84 +472,101 @@ def mortgage(): #mortgage properties
         print('Select one of the options')
 
 def house(): #buy/sell houses
-  clear()
-  hid = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-  hs = [1, 6, 11, 16, 21, 26, 31, 37]
-  color = {1:'Brown',6:'Light Blue',11:'Pink',16:'Orange',21:'Red',26:'Yellow',31:'Green',37:'Dark Blue'}
-  hdic = {1:[1,3],6:[6,8,9],11:[11,13,14],16:[16,18,19],21:[21,23,24],26:[26,27,29],31:[31,32,34],37:[37,39]}
-  hi = 1
-  for x in hs:
-    if monopolytest(x, 'm') and ownedby[x] == p:
-      z = 0
-      for y in hdic[x]:
-        if ismortgaged[y]:
-          z = 1
-      if z == 0:
-        hid[hi] = x
-        hi += 1
-  a = 1
-  print('Select the color groups to buy houses')
-  print('id numh price name')
-  while a < hi:
-    print('{:2} {:4} {:5d} {}'.format(a,numhouse[hid[a]],houseprice[hid[a]],color[hid[a]]))
-    a += 1
-  t = input()
-  i = 0
-  while i == 0:                      # t            : Color group number identifier
-    try:                             # tt           : Number of houses to change to
-      t = int(t)                     # ttt          : y/n to confirm
-      if 0 < t < hi:                 # hid[t]       : first prop number in color group
-        i = 1                        # hdic[hid[t]] : list of 2 or 3 props in color group
-      else:
-        print('Select one of the options')
-    except:
-      if t == 'd':
-        i = 10
-      else:
-        print('Select one of the options')
-  print('Enter a new house amount or "c" to cancel') 
-  while i == 1:
-    tt = input()
-    try:
-      tt = int(tt)
-      if tt == numhouse[hid[t]]:
-        print('You already have that many houses!')
-      elif 0 <= tt <= 5:
-        i = 2
-      else:
-        print('Select a number from 0 to 5')
-    except:
-      if tt == 'c':
-        i = 10
-      else:
-        print('Select a number from 0 to 5')
-  amount = 0
-  if tt < numhouse[hid[t]]: #losing houses
-    for x in hdic[hid[t]]:
-      amount += (numhouse[hid[t]]-tt)*(houseprice[hid[t]]//2) #MAKE SURE WORKS-----------------
-    print('Are you sure you want to lose '+str(numhouse[hid[t]]-tt)+' houses on '+color[hid[t]]+'? You will get $'+str(amount))
-    ttt = input()
-    while i == 2:
-      if ttt == 'y':
+  io = 0
+  while io == 0:
+    clear()
+    hid = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    hs = [1, 6, 11, 16, 21, 26, 31, 37]
+    color = {1:'Brown',6:'Light Blue',11:'Pink',16:'Orange',21:'Red',26:'Yellow',31:'Green',37:'Dark Blue'}
+    hdic = {1:[1,3],6:[6,8,9],11:[11,13,14],16:[16,18,19],21:[21,23,24],26:[26,27,29],31:[31,32,34],37:[37,39]}
+    hi = 1
+    for x in hs:
+      if monopolytest(x, 'm') and ownedby[x] == p:
+        z = 0
+        for y in hdic[x]:
+          if ismortgaged[y]:
+            z = 1
+        if z == 0:
+          hid[hi] = x
+          hi += 1
+    a = 1
+    print('Select the color groups to buy houses')
+    print('id numh price name')
+    while a < hi:
+      print('{:2} {:4} {:5d} {}'.format(a,numhouse[hid[a]],houseprice[hid[a]],color[hid[a]]))
+      a += 1
+    i = 0
+    while i == 0:
+      t = input()                      # t            : Color group number identifier
+      try:                             # tt           : Number of houses to change to
+        t = int(t)                     # ttt          : y/n to confirm
+        if 0 < t < hi:                 # hid[t]       : first prop number in color group
+          i = 1                        # hdic[hid[t]] : list of 2 or 3 props in color group
+        else:
+          print('Select one of the options')
+      except:
+        if t == 'd':
+          i = 10
+          io = 1
+        else:
+          print('Select one of the options')
+    while i == 1:
+      print('Enter a new house amount or "c" to cancel')
+      tt = input()
+      try:
+        tt = int(tt)
+        if tt == numhouse[hid[t]]:
+          print('You already have that many houses!')
+        elif 0 <= tt <= 5:
+          i = 2
+        else:
+          print('Select a number from 0 to 5')
+      except:
+        if tt == 'c':
+          i = 10
+        else:
+          print('Select a number from 0 to 5')
+    if i == 2:
+      amount = 0
+      if tt < numhouse[hid[t]]: #losing houses
         for x in hdic[hid[t]]:
-          numhouse[x] = tt
-        bal[p] += amount
-        print('You now have '+str(bal[p]))
-        i = 3
-      elif ttt == 'n':
-        i = 3
+          amount += (numhouse[hid[t]]-tt)*(houseprice[hid[t]]//2) #MAKE SURE WORKS-------------
+        print('Are you sure you want to sell '+str(numhouse[hid[t]]-tt)+' houses on '+color[hid[t]]+'? You will get $'+str(amount))
+        while i == 2:
+          ttt = input()
+          if ttt == 'y':
+            for x in hdic[hid[t]]:
+              numhouse[x] = tt
+            bal[p] += amount
+            print('You now have $'+str(bal[p]))
+            i = 3
+          elif ttt == 'n':
+            i = 3
+          else:
+            print('Select y or n')
+      elif tt > numhouse[hid[t]]: #gaining houses
+        for x in hdic[hid[t]]:
+          amount += (tt-numhouse[hid[t]])*(houseprice[hid[t]])
+        if bal[p] < amount:
+          print('You do not have enough money. You need $'+str(amount-bal[p])+' more.')
+          i = 3
+        else:
+          print('Are you sure you want to buy '+str(tt-numhouse[hid[t]])+' houses on '+color[hid[t]]+'? You will lose $'+str(amount))
+          while i == 2:
+            ttt = input()
+            if ttt == 'y':
+              for x in hdic[hid[t]]:
+                numhouse[x] = ttt
+              bal[p] -= amount
+              print('You now have $'+str(bal[p]))
+              i = 3
+            elif ttt == 'n':
+              i = 3
+            else:
+              print('Select one of the options')
       else:
-        print('Select y or n')
-  elif tt > numhouse[hid[t]]: #gaining houses
-    for x in hdic[hid[t]]:
-      amount += (tt-numhouse[hid[t]])*(houseprice[hid[t]])
-    if bal[p] < amount:
-      print('You do not have enough money. You need $'+str(amount-bal[p])+' more.')
-    else:
-      pass #-----------------------------------------------------------------------------------
-    i = 3
-  else:
-    print('error?')
+        print('error?')
+    clear()
 
 def cc(): #get a cc card
   global ccn

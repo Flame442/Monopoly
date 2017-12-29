@@ -18,6 +18,53 @@ while a <= num:
   name[a] = input()
   a += 1
 
+def configdict(filename):
+  #convert content of config-file into dictionary.
+  with open(filename, "r") as f:
+    cfglines = f.readlines()
+  global cfgdict
+  cfgdict = {}
+  for line in cfglines:
+    line = line.strip()
+    if not line or line.startswith("#"):
+      continue
+    try:
+      key, value = line.split("=")
+    except ValueError:
+      print("Bad line in config-file "+filename+':\n'+line)
+      continue
+    key = key.strip()
+    value = value.strip()
+    if value in ["True", "False", "None", "''", '""']:
+      value = eval(value)
+    else:
+      try:
+        if "." in value:
+          value = float(value)
+        else:
+          value = int(value)
+      except ValueError:
+        pass #value need not be converted
+    cfgdict[key] = value
+  return cfgdict
+
+try:
+  configdict('settings.txt')
+except:
+  with open('settings.txt', 'w') as f:
+    f.write('#Settings for Monopoly by Flame442\n\n#What property names to use (default 1)\n#1 = British\n#2 = US\n#3 = Custom\n\npropName = 1\n\n#If propName is set to Custom, these names will be used (default British names)\n#0-39 for every property in order starting at go\n\n 0 = Go\n 1 = Old Kent Road\n 2 = Community Chest\n 3 = Whitechapel Road\n 4 = Income Tax\n 5 = King\'s Cross Station\n 6 = The Angel Islington\n 7 = Chance\n 8 = Euston Road\n 9 = Pentonville Road\n10 = Jail\n11 = Pall Mall\n12 = Electric Company\n13 = Whitehall\n14 = Northumrl\'d Avenue\n15 = Marylebone Station\n16 = Bow Street\n17 = Community Chest\n18 = Marlborough Street\n19 = Vine Street\n20 = Free Parking\n21 = Strand\n22 = Chance\n23 = Fleet Street\n24 = Trafalgar Square\n25 = Fenchurch Station\n26 = Leicester Square\n27 = Conventry Street\n28 = Water Works\n29 = Piccadilly\n30 = Go To Jail\n31 = Regent Street\n32 = Oxford Street\n33 = Community Chest\n34 = Bond Street\n35 = Liverpool St. Station\n36 = Chance\n37 = Park Lane\n38 = Super Tax\n39 = Mayfair')
+  print ("No config file read, so one was created")
+  configdict('settings.txt')
+
+if cfgdict['propName'] == 1:
+  tilename = ['Go', 'Old Kent Road', 'Community Chest', 'Whitechapel Road', 'Income Tax', 'King\'s Cross Staton', 'The Angel Islington', 'Chance', 'Euston Road', 'Pentonville Road', 'Jail', 'Pall Mall', 'Electric Company', 'Whitehall', 'Northumrl\'d Avenue', 'Marylebone Station', 'Bow Street', 'Community Chest', 'Marlborough Street', 'Vine Street', 'Free Parking', 'Strand', 'Chance', 'Fleet Street', 'Trafalgar Square', 'Fenchurch Station', 'Leicester Square', 'Conventry Street', 'Water Works', 'Piccadilly', 'Go To Jail', 'Regent Street', 'Oxford Street', 'Community Chest', 'Bond Street', 'Liverpool St. Station', 'Chance', 'Park Lane', 'Super Tax', 'Mayfair']
+elif cfgdict['propName'] == 2:
+  tilename = [] #ADD US PROPS----------------------------------------------------
+elif cfgdict['propName'] == 3:
+  tilename = ['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','']
+  for x in range(40):
+    tilename[x] = cfgdict[str(x)]
+
 injail = [-1, False, False, False, False, False, False, False, False]
 tile = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
 bal = [-1, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500]

@@ -1,0 +1,52 @@
+#Settings for Monopoly by Flame442
+
+#What property names to use (default 1)
+#1 = British
+#2 = US
+#3 = Custom
+
+propName = 1
+
+#If propName is set to Custom, these names will be used (default British names)
+#0-39 for every property in order starting at go
+
+ 0 = Go
+ 1 = Old Kent Road
+ 2 = Community Chest
+ 3 = Whitechapel Road
+ 4 = Income Tax
+ 5 = King's Cross Station
+ 6 = The Angel Islington
+ 7 = Chance
+ 8 = Euston Road
+ 9 = Pentonville Road
+10 = Jail
+11 = Pall Mall
+12 = Electric Company
+13 = Whitehall
+14 = Northumrl'd Avenue
+15 = Marylebone Station
+16 = Bow Street
+17 = Community Chest
+18 = Marlborough Street
+19 = Vine Street
+20 = Free Parking
+21 = Strand
+22 = Chance
+23 = Fleet Street
+24 = Trafalgar Square
+25 = Fenchurch Station
+26 = Leicester Square
+27 = Conventry Street
+28 = Water Works
+29 = Piccadilly
+30 = Go To Jail
+31 = Regent Street
+32 = Oxford Street
+33 = Community Chest
+34 = Bond Street
+35 = Liverpool St. Station
+36 = Chance
+37 = Park Lane
+38 = Super Tax
+39 = Mayfair

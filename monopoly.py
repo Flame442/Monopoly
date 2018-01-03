@@ -1,5 +1,5 @@
 from random import randint, shuffle
-name = ['', '', '', '', '', '', '', '', ''] #fix any int() w/o try:----------------------------
+name = ['', '', '', '', '', '', '', '', '']
 print('Welcome to Monopoly. How many players?')
 i = 0 #number and name of players
 while i == 0:
@@ -180,20 +180,26 @@ def trade(): #trades between players, messy don't even try to read...
         pass
     except ValueError:
       if t == 'm':
-        print('How much money? You have $'+str(bal[p]))
-        monp = int(input())
-        if monp > bal[p]:
+        try:
+          print('How much money? You have $'+str(bal[p]))
+          monp = int(input())
+          if monp > bal[p]:
+            monp = 0
+          continue
+        except:
           monp = 0
-        continue
       elif t == 'd':
         i = 2
         continue
       elif t == 'j':
-        print('How many? You have '+str(goojf[p]))
-        jp = int(input())
-        if jp > goojf[p]:
+        try:
+          print('How many? You have '+str(goojf[p]))
+          jp = int(input())
+          if jp > goojf[p]:
+            jp = 0
+          continue
+        except:
           jp = 0
-        continue
       else:
         continue
   a = 0
@@ -232,26 +238,30 @@ def trade(): #trades between players, messy don't even try to read...
         pass
     except ValueError:
       if t == 'm':
-        print('How much money? You have $'+str(bal[tradep]))
-        monn = int(input())
-        if monn > bal[tradep]:
+        try:
+          print('How much money? You have $'+str(bal[tradep]))
+          monn = int(input())
+          if monn > bal[tradep]:
+            monn = 0
+          continue
+        except:
           monn = 0
-        continue
       elif t == 'd':
         i = 3
         continue
       elif t == 'm':
-        print('How many? You have '+str(goojf[tradep]))
-        jn = int(input())
-        if jn > goojf[tradep]:
+        try:
+          print('How many? You have '+str(goojf[tradep]))
+          jn = int(input())
+          if jn > goojf[tradep]:
+            jn = 0
+          continue
+        except:
           jn = 0
-        continue
       else:
         continue
   clear()
-  print('Confirm with y or quit with n')
-  print('')
-  print('You will give:')
+  print('Confirm with y or quit with n\n\nYou will give:')
   a = 1
   while a < pti:
     if ptotrade[tradeidp[a]] == 1:
@@ -286,11 +296,7 @@ def trade(): #trades between players, messy don't even try to read...
       continue
   if i == 4:
     clear()
-    print(name[tradep]+'\'s turn!')
-    print(name[p]+' would like to trade with you! Here is their offer')
-    print('Accept with y or deny with n')
-    print('')
-    print('You will get:')
+    print(name[tradep]+'\'s turn!\n'+name[p]+' would like to trade with you! Here is their offer\nAccept with y or deny with n\n\nYou will get:')
     a = 1
     while a < pti:
       if ptotrade[tradeidp[a]] == 1:
@@ -410,12 +416,7 @@ def jail(): #turn code when in jail
 
 def debt(): #player balance below 0 turn code
   while bal[p] < 0:
-    print('You are in debt. You have $'+str(bal[p])+'.')
-    print('Select an option to get out of debt:')
-    print('t: Trade')
-    print('m: Mortgage')
-    print('h: Sell Houses')
-    print('g: Give up')
+    print('You are in debt. You have $'+str(bal[p])+'.\nSelect an option to get out of debt:\nt: Trade\nm: Mortgage\nh: Sell Houses\ng: Give up')
     choice = input()
     if choice == 't':
       trade()
@@ -456,8 +457,7 @@ def mortgage(): #mortgage properties
   clear()
   while i == 0:
     a = 1
-    print('Select the property you want to mortgage')
-    print('id isM price name')
+    print('Select the property you want to mortgage\nid isM price name')
     while a < mi:
       if monopolytest(a,'h') == False:
         if ismortgaged[mid[a]] == 1:
@@ -536,8 +536,7 @@ def house(): #buy/sell houses
           hid[hi] = x
           hi += 1
     a = 1
-    print('Select the color groups to buy houses')
-    print('id numh price name')
+    print('Select the color groups to buy houses\nid numh price name')
     while a < hi:
       print('{:2} {:4} {:5d} {}'.format(a,numhouse[hid[a]],houseprice[hid[a]],color[hid[a]]))
       a += 1
@@ -576,7 +575,7 @@ def house(): #buy/sell houses
       amount = 0
       if tt < numhouse[hid[t]]: #losing houses
         for x in hdic[hid[t]]:
-          amount += (numhouse[hid[t]]-tt)*(houseprice[hid[t]]//2) #MAKE SURE WORKS-------------
+          amount += (numhouse[hid[t]]-tt)*(houseprice[hid[t]]//2)
         print('Are you sure you want to sell '+str(numhouse[hid[t]]-tt)+' houses on '+color[hid[t]]+'? You will get $'+str(amount))
         while i == 2:
           ttt = input()
@@ -610,8 +609,6 @@ def house(): #buy/sell houses
               i = 3
             else:
               print('Select one of the options')
-      else:
-        print('error?')
     clear()
     if doprint:
       print('You now have $'+str(bal[p]))
@@ -936,24 +933,6 @@ def landnd(): #affecting properties
     elif tile[p] == 38:
       bal[p] -= 100
       print('You paid $100 of Super Tax. You now have $'+str(bal[p]))
-    else: #--------------------------------------------------------<error test code>-----------
-      print('ownedby == -1 but still failed.\n',
-        tile[p] in (0, 20),'\n',
-        tile[p] in (2, 17, 33),'\n',
-        tile[p] in (7, 22, 36),'\n',
-        tile[p] == 10,'\n',
-        tile[p] == 30,'\n',
-        tile[p] == 4,'\n',
-        tile[p] == 38)
-  else:
-    print('fail overall.\n',
-    ownedby[tile[p]] == 0 and bal[p] >= pricebuy[tile[p]],'\n',
-    ownedby[tile[p]] == 0 and bal[p] < pricebuy[tile[p]],'\n',
-    ownedby[tile[p]] == p,'\n',
-    ismortgaged[tile[p]] == 1,'\n',
-    ownedby[tile[p]] > 0 and rentprice[tile[p]] > -1,'\n',
-    ownedby[tile[p]] > 0 and rentprice[tile[p]] == -1,'\n',
-    ownedby[tile[p]] == -1) #--------------------------------------</error test code>----------
   if bal[p] < 0:
     debt() 
 
@@ -1011,7 +990,9 @@ def turn(): #choices on turn
       house()
 
 def gameover(): #game over code after someone wins
-  print('Game Over') #temp code----------------------------------------------------------------
+  for o in range(9):
+    if alive[o]:
+      print(name[o]+' wins!')
 
 def gamerun(): #code for changing player by turn
   global p

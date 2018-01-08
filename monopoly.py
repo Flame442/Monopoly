@@ -891,6 +891,10 @@ def landnd(): #affecting properties
       bal[p] -= rentprice[tile[p]*6+numhouse[tile[p]]]
       bal[ownedby[tile[p]]] += rentprice[tile[p]*6+numhouse[tile[p]]]
       print('You paid $'+str(rentprice[tile[p]*6+numhouse[tile[p]]])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
+  elif ownedby[tile[p]] > 0 and rentprice[tile[p]] > -1 and numhouse[tile[p]] != 0:
+    bal[p] -= rentprice[tile[p]*6+numhouse[tile[p]]]
+    bal[ownedby[tile[p]]] += rentprice[tile[p]*6+numhouse[tile[p]]]
+    print('You paid $'+str(rentprice[tile[p]*6+numhouse[tile[p]]])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
   elif ownedby[tile[p]] > 0 and rentprice[tile[p]] == -1: #rr and utilities
     if tile[p] in (12, 28): #utility
       if ownedby[12] == ownedby[28]: #own both

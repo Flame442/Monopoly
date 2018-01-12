@@ -88,6 +88,7 @@ houseprice = [-1, 30, -1, 30, -1, -1, 50, -1, 50, 50, -1, 100, -1, 100, 100, -1,
 goojf = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
 alive = [-1, True, True, True, True, True, True, True, True]
 jailturn = [-1, -1, -1, -1, -1, -1, -1, -1, -1]
+autosave = ''
 
 def monopolytest(t,test): #tests if prop in monopoly or any prop in color group has houses
   pga = [1, 6, 11, 16, 21, 26, 31, 37]
@@ -972,8 +973,11 @@ def turn(): #choices on turn
           trade()
         elif choice == 'm': #mortgage
           mortgage()
-        elif choice == 'h':
+        elif choice == 'h': #manage houses
           house()
+        elif choice == 's': #print game save message
+          global autosave
+          print(autosave)
   r = 1
   while r == 1 and alive[p] == 1:
     print('Type t to trade, m to mortgage, h to manage houses, or d when done')
@@ -996,11 +1000,13 @@ def gameover(): #game over code after someone wins
 
 def gamerun(): #code for changing player by turn
   global p
+  global autosave
   p = 1
   while numalive >= 2:
     if p > num:
       p = 1
     if alive[p]:
+      autosave = ('name = '+str(name)+'\ninjail = '+str(injail)+'\ntile = '+str(tile)+'\nbal = '+str(bal)+'\np = '+str(p)+'\nnumhouse = '+str(numhouse)+'\nismortgaged = '+str(ismortgaged)+'\ngoojf = '+str(goojf)+'\nalive = '+str(alive)+'\njailturn ='+str(jailturn))
       turn()
     p += 1
   return

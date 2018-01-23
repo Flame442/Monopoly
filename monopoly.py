@@ -47,17 +47,28 @@ def configdict(filename): #convert content of config-file into dictionary.
     cfgdict[key] = value
   return cfgdict
 try:
-  configdict('save.txt') #remove these variables from below and add them to defaults (save wont work rn)-----------------------------------------------------------------------------------
+  configdict('save.txt')
   name = cfgdict['name']
   tilename = cfgdict['tilename']
   bal = cfgdict['bal']
   p = cfgdict['p']
+  ownedby = cfgdict['ownedby']
   numhouse = cfgdict['numhouse']
   ismortgaged = cfgdict['ismortgaged']
   goojf = cfgdict['goojf']
   alive = cfgdict['alive']
   jailturn = cfgdict['jailturn']
 except:
+  injail = [-1, False, False, False, False, False, False, False, False]
+  tile = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
+  bal = [-1, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500]
+  p = 0
+  ownedby = [-1, 0, -1, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, -1, 0]
+  numhouse = [-1, 0, -1, 0, -1, -1, 0, -1, 0, 0, -1, 0, -1, 0, 0, -1, 0, -1, 0, 0, -1, 0, -1, 0, 0, -1, 0, 0, -1, 0, -1, 0, 0, -1, 0, -1, -1, 0, -1, 0]
+  ismortgaged = [-1, 0, -1, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, -1, 0]
+  goojf = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
+  alive = [-1, True, True, True, True, True, True, True, True]
+  jailturn = [-1, -1, -1, -1, -1, -1, -1, -1, -1]
   try:
     configdict('settings.txt')
     if cfgdict['propName'] == 1:
@@ -73,15 +84,9 @@ except:
       f.write('#Settings for Monopoly by Flame442\n\n#What property names to use (default 1)\n#1 = British\n#2 = US\n#3 = Custom\n\npropName = 1\n\n#If propName is set to Custom, these names will be used (default British names)\n#0-39 for every property in order starting at go\n\n 0 = Go\n 1 = Old Kent Road\n 2 = Community Chest\n 3 = Whitechapel Road\n 4 = Income Tax\n 5 = King\'s Cross Station\n 6 = The Angel Islington\n 7 = Chance\n 8 = Euston Road\n 9 = Pentonville Road\n10 = Jail\n11 = Pall Mall\n12 = Electric Company\n13 = Whitehall\n14 = Northumrl\'d Avenue\n15 = Marylebone Station\n16 = Bow Street\n17 = Community Chest\n18 = Marlborough Street\n19 = Vine Street\n20 = Free Parking\n21 = Strand\n22 = Chance\n23 = Fleet Street\n24 = Trafalgar Square\n25 = Fenchurch Station\n26 = Leicester Square\n27 = Conventry Street\n28 = Water Works\n29 = Piccadilly\n30 = Go To Jail\n31 = Regent Street\n32 = Oxford Street\n33 = Community Chest\n34 = Bond Street\n35 = Liverpool St. Station\n36 = Chance\n37 = Park Lane\n38 = Super Tax\n39 = Mayfair')
     print ("No config file read, so one was created")
     configdict('settings.txt')
-
-injail = [-1, False, False, False, False, False, False, False, False]
-tile = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
-bal = [-1, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500]
-p = 0
+    tilename = ['Go', 'Old Kent Road', 'Community Chest', 'Whitechapel Road', 'Income Tax', 'King\'s Cross Staton', 'The Angel Islington', 'Chance', 'Euston Road', 'Pentonville Road', 'Jail', 'Pall Mall', 'Electric Company', 'Whitehall', 'Northumrl\'d Avenue', 'Marylebone Station', 'Bow Street', 'Community Chest', 'Marlborough Street', 'Vine Street', 'Free Parking', 'Strand', 'Chance', 'Fleet Street', 'Trafalgar Square', 'Fenchurch Station', 'Leicester Square', 'Conventry Street', 'Water Works', 'Piccadilly', 'Go To Jail', 'Regent Street', 'Oxford Street', 'Community Chest', 'Bond Street', 'Liverpool St. Station', 'Chance', 'Park Lane', 'Super Tax', 'Mayfair']
 pricebuy = [-1, 60, -1, 60, -1, 200, 100, -1, 100, 120, -1, 140, 150, 140, 160, 200, 180, -1, 180, 200, -1, 220, -1, 220, 240, 200, 260, 260, 150, 280, -1, 300, 300, -1, 320, 200, -1, 350, -1, 400]
-ownedby = [-1, 0, -1, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, -1, 0]
 rentprice = [-1, -1, -1, -1, -1, -1, 2, 10, 30, 90, 160, 250, -1, -1, -1, -1, -1, -1, 4, 20, 60, 180, 360, 450, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 6, 30, 90, 270, 400, 550, -1, -1, -1, -1, -1, -1, 6, 30, 90, 270, 400, 550, 8, 40, 100, 300, 450, 600, -1, -1, -1, -1, -1, -1, 10, 50, 150, 450, 625, 750, -1, -1, -1, -1, -1, -1, 10, 50, 150, 450, 625, 750, 12, 60, 180, 500, 700, 900, -1, -1, -1, -1, -1, -1, 14, 70, 200, 550, 750, 950, -1, -1, -1, -1, -1, -1, 14, 70, 200, 550, 750, 950, 16, 80, 220, 600, 800, 1000, -1, -1, -1, -1, -1, -1, 18, 90, 250, 700, 875, 1050, -1, -1, -1, -1, -1, -1, 10, 90, 250, 700, 875, 1050, 20, 100, 300, 750, 925, 1100, -1, -1, -1, -1, -1, -1, 22, 110, 330, 800, 975, 1150, 22, 110, 330, 800, 975, 1150, -1, -1, -1, -1, -1, -1, 22, 120, 360, 850, 1025, 1200, -1, -1, -1, -1, -1, -1, 26, 130, 390, 900, 1100, 1275, 26, 130, 390, 900, 1100, 1275, -1, -1, -1, -1, -1, -1, 28, 150, 450, 1000, 1200, 1400, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 35, 175, 500, 1100, 1300, 1500, -1, -1, -1, -1, -1, -1, 50, 200, 600, 1400, 1700, 2000]
-numhouse = [-1, 0, -1, 0, -1, -1, 0, -1, 0, 0, -1, 0, -1, 0, 0, -1, 0, -1, 0, 0, -1, 0, -1, 0, 0, -1, 0, 0, -1, 0, -1, 0, 0, -1, 0, -1, -1, 0, -1, 0]
 rrprice = [0, 25, 50, 100, 200]
 ccorder = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 shuffle(ccorder)
@@ -91,13 +96,9 @@ shuffle(chanceorder)
 chancen = 0
 ccname = ['Advance to Go (Collect $200)', 'Bank error in your favor\nCollect $200', 'Doctor\'s fee\nPay $50', 'From sale of stock you get $50', 'Get Out of Jail Free', 'Go to Jail\nGo directly to jail\nDo not pass Go\nDo not collect $200', 'Grand Opera Night\nCollect $50 from every player for opening night seats', 'Holiday Fund matures\nReceive $100', 'Income tax refund\nCollect $20', 'It is your birthday\nCollect $10', 'Life insurance matures\nCollect $100', 'Pay hospital fees of $100', 'Pay school fees of $150', 'Receive $25 consultancy fee', 'You are assessed for street repairs\n$40 per house\n$115 per hotel', 'You have won second prize in a beauty contest\nCollect $10', 'You inherit $100']
 chancename = ['Advance to Go (Collect $200)', 'Advance to Illinois Ave\nIf you pass Go, collect $200.', 'Advance to St. Charles Place\nIf you pass Go, collect $200', 'Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times the amount thrown.', 'Advance token to the nearest Railroad and pay owner twice the rental to which he/she is otherwise entitled. If Railroad is unowned, you may buy it from the Bank.', 'Bank pays you dividend of $50', 'Get Out of Jail Free', 'Go Back 3 Spaces', 'Go to Jail\nGo directly to Jail\nDo not pass Go\nDo not collect $200', 'Make general repairs on all your property\nFor each house pay $25\nFor each hotel $100', 'Pay poor tax of $15', 'Take a trip to Reading Railroad\nIf you pass Go, collect $200', 'Take a walk on the Boardwalk\nAdvance token to Boardwalk', 'You have been elected Chairman of the Board\nPay each player $50', 'Your building and loan matures\nCollect $150', 'You have won a crossword competition\nCollect $100']
-ismortgaged = [-1, 0, -1, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, -1, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, -1, 0]
 mortgageprice = [-1, 50, -1, 50, -1, 100, 50, -1, 50, 60, -1, 70, 75, 70, 80, 100, 90, -1, 90, 100, -1, 110, -1, 110, 120, 100, 140, 140, 75, 150, -1, 200, 200, -1, 200, 100, -1, 175, -1, 200]
 tenmortgageprice = [-1, 55, -1, 55, -1, 110, 55, -1, 55, 66, -1, 77, 83, 77, 88, 110, 99, -1, 99, 110, -1, 121, -1, 121, 132, 110, 154, 154, 83, 165, -1, 220, 220, -1, 220, 110, -1, 188, -1, 220]
 houseprice = [-1, 30, -1, 30, -1, -1, 50, -1, 50, 50, -1, 100, -1, 100, 100, -1, 100, -1, 100, 100, -1, 150, -1, 150, 150, -1, 150, 150, -1, 150, -1, 150, 150, -1, 150, -1, -1, 200, -1, 200]
-goojf = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
-alive = [-1, True, True, True, True, True, True, True, True]
-jailturn = [-1, -1, -1, -1, -1, -1, -1, -1, -1]
 autosave = ''
 
 def monopolytest(t,test): #tests if prop in monopoly or any prop in color group has houses
@@ -1017,7 +1018,7 @@ def gamerun(): #code for changing player by turn
     if p > num:
       p = 1
     if alive[p]:
-      autosave = ('name = '+str(name)+'\ntilename = '+str(tilename)+'\ninjail = '+str(injail)+'\ntile = '+str(tile)+'\nbal = '+str(bal)+'\np = '+str(p)+'\nnumhouse = '+str(numhouse)+'\nismortgaged = '+str(ismortgaged)+'\ngoojf = '+str(goojf)+'\nalive = '+str(alive)+'\njailturn ='+str(jailturn))
+      autosave = ('name = '+str(name)+'\ntilename = '+str(tilename)+'\ninjail = '+str(injail)+'\ntile = '+str(tile)+'\nbal = '+str(bal)+'\np = '+str(p)+'\nownedby = '+str(ownedby)+'\nnumhouse = '+str(numhouse)+'\nismortgaged = '+str(ismortgaged)+'\ngoojf = '+str(goojf)+'\nalive = '+str(alive)+'\njailturn ='+str(jailturn))
       turn()
     p += 1
   return

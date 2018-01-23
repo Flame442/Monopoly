@@ -32,8 +32,7 @@ def configdict(filename): #convert content of config-file into dictionary.
     except ValueError:
       print("Bad line in config-file "+filename+':\n'+line)
       continue
-    key = key.strip()
-    value = value.strip()
+    key, value = key.strip(), value.strip()
     if value in ["True", "False", "None", "''", '""']:
       value = eval(value)
     else:
@@ -124,11 +123,7 @@ def clear(): #just prints lots of blank lines
 def trade(): #trades between players, messy don't even try to read...
   clear()
   print('Select the player you want to trade with')
-  a = 1
-  monp = 0
-  monn = 0
-  jp = 0
-  jn = 0
+  a,monp,monn,jp,jn = 1,0,0,0,0
   tradeidp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   tradeidn = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ptotrade = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -156,8 +151,7 @@ def trade(): #trades between players, messy don't even try to read...
         continue
     except:
       print('Select one of the options')
-  a = 0
-  pti = 1
+  a,pti = 0,1
   while a < 40:
     if ownedby[a] == p and numhouse[a] == 0:
       tradeidp[pti] = a
@@ -214,8 +208,7 @@ def trade(): #trades between players, messy don't even try to read...
           jp = 0
       else:
         continue
-  a = 0
-  nti = 1
+  a,nti = 0,1
   while a < 40:
     if ownedby[a] == tradep and numhouse[a] == 0:
       tradeidn[nti] = a
@@ -563,8 +556,7 @@ def house(): #buy/sell houses
           print('Select one of the options')
       except:
         if t == 'd':
-          i = 10
-          io = 1
+          i,io = 10,1
         else:
           print('Select one of the options')
     while i == 1:
@@ -1038,6 +1030,5 @@ def debug(): #print debug info
   print(bal[1:])
 
 #start of run code
-debug()
 gamerun()
 gameover()

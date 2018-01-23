@@ -12,11 +12,7 @@ while i == 0:
       i = 1
   except:
     print('Please select a number between 2 and 8')
-a = 1
-while a <= num:
-  print('Name for player '+str(a)+'?')
-  name[a] = input()
-  a += 1
+for a in range(1,num+1): name[a] = input('Name for player '+str(a)+'?\n')
 
 def configdict(filename): #convert content of config-file into dictionary.
   with open(filename, "r") as f:
@@ -956,7 +952,7 @@ def turn(): #choices on turn
       while r == 0:
         print('Type r to roll, t to trade, h to manage houses, or m to mortgage.')
         choice = input()
-        if choice == 'r': #normal turn 
+        if choice == 'r': #normal turn, roll dice
           roll()
           if d1 == d2:
             nod += 1

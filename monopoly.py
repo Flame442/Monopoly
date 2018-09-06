@@ -43,6 +43,10 @@ def configdict(filename): #convert content of config-file into dictionary.
   return cfgdict
 try:
   configdict('save.txt')
+  print('Use save file? (y/n)')
+  useSave = input()
+  if useSave != 'y':
+    raise TypeError('Don\'t Save')
   name = cfgdict['name']
   tilename = cfgdict['tilename']
   bal = cfgdict['bal']

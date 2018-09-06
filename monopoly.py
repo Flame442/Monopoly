@@ -739,13 +739,13 @@ def chance(): #get a chance card
       tile[p] = 5
     print('You are now at '+tilename[tile[p]])
     rr = 0
-    if ownedby[tile[5]] == ownedby[tile[p]]:
+    if ownedby[5] == ownedby[tile[p]]:
       rr += 1
-    if ownedby[tile[15]] == ownedby[tile[p]]:
+    if ownedby[15] == ownedby[tile[p]]:
       rr += 1
-    if ownedby[tile[25]] == ownedby[tile[p]]:
+    if ownedby[25] == ownedby[tile[p]]:
       rr += 1
-    if ownedby[tile[35]] == ownedby[tile[p]]:
+    if ownedby[35] == ownedby[tile[p]]:
       rr += 1
     bal[p] -= rrprice[rr]
     bal[ownedby[tile[p]]] += rrprice[rr]

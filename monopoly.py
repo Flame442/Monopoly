@@ -1,18 +1,18 @@
-from random import randint, shuffle
-name = ['', '', '', '', '', '', '', '', '']
+from random import randint, shuffle #TODO: REMOVE RANDOM continue's--------------------|
+name = ['', '', '', '', '', '', '', '', ''] #name of each player
 print('Welcome to Monopoly. How many players?')
 i = 0 #number and name of players
 while i == 0:
   try:
     num = int(input())
-    if num < 2 or num > 8:
+    if num < 2 or num > 8: #2-8 player game
       print('Please select a number between 2 and 8')
     else:
       numalive = num #set number of players still in the game for later
-      i = 1
-  except:
+      i = 1 #leave loop
+  except: #not a number
     print('Please select a number between 2 and 8')
-for a in range(1,num+1): name[a] = input('Name for player '+str(a)+'?\n')
+for a in range(1,num+1): name[a] = input('Name for player '+str(a)+'?\n') #get name for each player into name
 
 def configdict(filename): #convert content of config-file into dictionary.
   with open(filename, "r") as f:
@@ -24,25 +24,25 @@ def configdict(filename): #convert content of config-file into dictionary.
     if not line or line.startswith("#"):
       continue
     try:
-      key, value = line.split("=")
+      key, value = line.split("=") #split to variable and value
     except ValueError:
       print("Bad line in config-file "+filename+':\n'+line)
       continue
     key, value = key.strip(), value.strip()
     if value in ["True", "False", "None", "''", '""']:
-      value = eval(value)
+      value = eval(value) #turn to bool
     else:
       try:
         if "." in value:
-          value = float(value)
+          value = float(value) #turn to float
         else:
-          value = int(value)
+          value = int(value) #turn to int
       except ValueError:
         pass #value need not be converted
-    cfgdict[key] = value
+    cfgdict[key] = value #put in dictionary
   return cfgdict
 try:
-  configdict('save.txt')
+  configdict('save.txt') 
   print('Use save file? (y/n)')
   useSave = input()
   if useSave != 'y':
@@ -57,7 +57,7 @@ try:
   goojf = cfgdict['goojf']
   alive = cfgdict['alive']
   jailturn = cfgdict['jailturn']
-except:
+except: #default start
   injail = [-1, False, False, False, False, False, False, False, False]
   tile = [-1, 0, 0, 0, 0, 0, 0, 0, 0]
   bal = [-1, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500]
@@ -70,11 +70,11 @@ except:
   jailturn = [-1, -1, -1, -1, -1, -1, -1, -1, -1]
   try:
     configdict('settings.txt')
-    if cfgdict['propName'] == 1:
+    if cfgdict['propName'] == 1: #british
       tilename = ['Go', 'Old Kent Road', 'Community Chest', 'Whitechapel Road', 'Income Tax', 'King\'s Cross Staton', 'The Angel Islington', 'Chance', 'Euston Road', 'Pentonville Road', 'Jail', 'Pall Mall', 'Electric Company', 'Whitehall', 'Northumrl\'d Avenue', 'Marylebone Station', 'Bow Street', 'Community Chest', 'Marlborough Street', 'Vine Street', 'Free Parking', 'Strand', 'Chance', 'Fleet Street', 'Trafalgar Square', 'Fenchurch Station', 'Leicester Square', 'Conventry Street', 'Water Works', 'Piccadilly', 'Go To Jail', 'Regent Street', 'Oxford Street', 'Community Chest', 'Bond Street', 'Liverpool St. Station', 'Chance', 'Park Lane', 'Super Tax', 'Mayfair']
-    elif cfgdict['propName'] == 2:
+    elif cfgdict['propName'] == 2: #american
       tilename = ['Go', 'Mediterranean Avenue', 'Community Chest', 'Baltic Avenue', 'Income Tax', 'Reading Rainbow', 'Oriental Avenue', 'Chance', 'Vermont Avenue', 'Connecticut Avenue', 'Jail', 'St. Charles Place', 'Electric Company', 'States Avenue', 'States Avenue', 'Pennsylvania Railroad', 'St. James Place', 'Community Chest', 'Tennessee Avenue', 'New York Avenue', 'Free Parking', 'Kentucky Avenue', 'Chance', 'Indiana Avenue', 'Illinois Avenue', 'B&O Railroad', 'Atlantic Avenue', 'Ventnor Avenue', 'Water Works', 'Marvin Gardens', 'Go To Jail', 'Pacific Avenue', 'North Carolina Avenue', 'Community Chest', 'Pennsylvania Avenue', 'Short Line', 'Chance', 'Park Place', 'Luxury Tax', 'Boardwalk']
-    elif cfgdict['propName'] == 3:
+    elif cfgdict['propName'] == 3: #custom
       tilename = ['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','']
       for x in range(40):
         tilename[x] = cfgdict[str(x)]
@@ -100,18 +100,18 @@ tenmortgageprice = [-1, 55, -1, 55, -1, 110, 55, -1, 55, 66, -1, 77, 83, 77, 88,
 houseprice = [-1, 30, -1, 30, -1, -1, 50, -1, 50, 50, -1, 100, -1, 100, 100, -1, 100, -1, 100, 100, -1, 150, -1, 150, 150, -1, 150, 150, -1, 150, -1, 150, 150, -1, 150, -1, -1, 200, -1, 200]
 autosave = ''
 
-def monopolytest(t,test): #tests if prop in monopoly or any prop in color group has houses
+def monopolytest(t,test): #tests if prop in monopoly or any properties in color group has houses
   pga = [1, 6, 11, 16, 21, 26, 31, 37]
-  pgb = [3, 8, 13, 18, 23, 27, 32, 39]
+  pgb = [3, 8, 13, 18, 23, 27, 32, 39] #3 properties in each color
   pgc = [3, 9, 14, 19, 24, 29, 34, 39]
   if test == 'm':
     for i in range(8):
-      if bool(bool(t == pga[i] or t == pgb[i] or t == pgc[i]) and bool(ownedby[pga[i]] == ownedby[pgb[i]] == ownedby[pgc[i]]) and bool(ownedby[pga[i]] != 0)):
+      if bool(bool(t == pga[i] or t == pgb[i] or t == pgc[i]) and bool(ownedby[pga[i]] == ownedby[pgb[i]] == ownedby[pgc[i]]) and bool(ownedby[pga[i]] != 0)): #if the tested property is one of the 3 currently selected, all three are owned by the same person and not unowned, return True
         return True
     return False
   elif test == 'h':
     for i in range(8):
-      if bool(bool(t == pga[i] or t == pgb[i] or t == pgc[i]) and bool(bool(numhouse[pga[i]] != 0) or bool(numhouse[pgb[i]] != 0) or bool(numhouse[pgc[i]]) != 0) and bool(ownedby[pga[i]] != 0)):
+      if bool(bool(t == pga[i] or t == pgb[i] or t == pgc[i]) and bool(bool(numhouse[pga[i]] != 0) or bool(numhouse[pgb[i]] != 0) or bool(numhouse[pgc[i]]) != 0) and bool(ownedby[pga[i]] != 0)): #if none of the properties in the color group have houses, return True
         return True
     return False
   return False
@@ -130,21 +130,20 @@ def trade(): #trades between players, messy don't even try to read...
   ntotrade = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   while a < 9:
     if a <= num:
-      if a == p or not alive[a]:
+      if a == p or not alive[a]: #can't trade with yourself or dead players
         a += 1
         continue
       else:
-        print(str(a)+' '+name[a])
+        print(str(a)+' '+name[a]) #print name if tradeable
         a += 1
         continue
     else:
-      a += 1
-      continue
+      break
   i = 0
   while i != 1:
     try:
-      tradep = int(input())
-      if 1 <= tradep <= num and tradep != p and alive[tradep] == True:
+      tradep = int(input()) #select the number of the player to trade
+      if 1 <= tradep <= num and tradep != p and alive[tradep] == True: #make sure the number is a player, is not the person starting the trade, and is alive
         i = 1
       else:
         print('Select one of the options')
@@ -153,8 +152,8 @@ def trade(): #trades between players, messy don't even try to read...
       print('Select one of the options')
   a,pti = 0,1
   while a < 40:
-    if ownedby[a] == p and numhouse[a] == 0:
-      tradeidp[pti] = a
+    if ownedby[a] == p and numhouse[a] == 0: #can only trade if owned by the player and does not have a house
+      tradeidp[pti] = a #put in the holding cell
       pti += 1
     a += 1
   while i == 1:
@@ -162,20 +161,20 @@ def trade(): #trades between players, messy don't even try to read...
     print('id sel name')
     a = 1
     while a < pti:
-      if ptotrade[tradeidp[a]] == 1:
+      if ptotrade[tradeidp[a]] == 1: #if already selected
         print(str(a)+'  +   '+tilename[tradeidp[a]])
       else:
         print(str(a)+'      '+tilename[tradeidp[a]])
       a += 1
-    print('$'+str(monp))
-    if jp == 1:
+    print('$'+str(monp)) #money trade
+    if jp == 1: #plural test
       print(str(jp)+' get out of jail free card')
     else:
       print(str(jp)+' get out of jail free cards')
     print('')
     print('Type the number of the properties you want to give, "m" to give money, "j" to give get out of jail free cards, and "d" when you are done')
     t = input()
-    try:
+    try: #swap select/deselect property if valid number
       if 0 < int(t) < pti and ptotrade[tradeidp[int(t)]] == 0:
         ptotrade[tradeidp[int(t)]] = 1
         continue
@@ -184,31 +183,31 @@ def trade(): #trades between players, messy don't even try to read...
         continue
       else:
         pass
-    except ValueError:
-      if t == 'm':
+    except ValueError: #not a number
+      if t == 'm': #money select screen
         try:
           print('How much money? You have $'+str(bal[p]))
           monp = int(input())
-          if monp > bal[p]:
+          if monp > bal[p]: #can't be greater than owned money
             monp = 0
           continue
         except:
           monp = 0
-      elif t == 'd':
+      elif t == 'd': #exit loop
         i = 2
         continue
       elif t == 'j':
         try:
           print('How many? You have '+str(goojf[p]))
           jp = int(input())
-          if jp > goojf[p]:
+          if jp > goojf[p]: #can't be greater than owned goojf
             jp = 0
           continue
         except:
           jp = 0
       else:
         continue
-  a,nti = 0,1
+  a,nti = 0,1 #EVERYTHIN ABOVE REPEATED FOR SELECTING PROPERTIES FROM TRADEP(artner)
   while a < 40:
     if ownedby[a] == tradep and numhouse[a] == 0:
       tradeidn[nti] = a
@@ -269,7 +268,7 @@ def trade(): #trades between players, messy don't even try to read...
   print('Confirm with y or quit with n\n\nYou will give:')
   a = 1
   while a < pti:
-    if ptotrade[tradeidp[a]] == 1:
+    if ptotrade[tradeidp[a]] == 1: #print selected properties
       print(tilename[tradeidp[a]])
     a += 1
   print('$'+str(monp))
@@ -293,12 +292,11 @@ def trade(): #trades between players, messy don't even try to read...
   while i == 3:
     a = input()
     if str(a) == 'y':
-      i = 4
+      i = 4 
     elif str(a) == 'n':
       i = 10
     else:
       print('Select y or n')
-      continue
   if i == 4:
     clear()
     print(name[tradep]+'\'s turn!\n'+name[p]+' would like to trade with you! Here is their offer\nAccept with y or deny with n\n\nYou will get:')
@@ -329,13 +327,10 @@ def trade(): #trades between players, messy don't even try to read...
       a = input()
       if str(a) == 'y':
         i = 5
-        continue
       elif str(a) == 'n':
         i = 10
-        continue
       else:
         print('Select y or n')
-        continue
   if i == 5:
     bal[p] += monn
     bal[tradep] += monp
@@ -347,7 +342,7 @@ def trade(): #trades between players, messy don't even try to read...
     goojf[tradep] -= jn
     a = 0
     while a < pti: 
-      if ptotrade[tradeidp[a]] == 1:
+      if ptotrade[tradeidp[a]] == 1: #swap selected properties
         ownedby[tradeidp[a]] = tradep
       a += 1
     a = 0
@@ -369,7 +364,7 @@ def roll(): #rolls d1 and d2 (1-6) and prints if 'doubles'
 
 def jail(): #turn code when in jail
   print(name[p]+' is in jail!')
-  if jailturn[p] == -1:
+  if jailturn[p] == -1: #just entered jail
     jailturn[p] = 0
   jailturn[p] += 1
   if goojf[p] > 0:
@@ -379,12 +374,15 @@ def jail(): #turn code when in jail
       print('Type "r" to roll, "b" to post bail, or "g" to use your "Get Out of Jail Free" card.')
   else:
     if jailturn[p] == 4:
-      print('Your 3 turns in jail are up. You have to type "b" to post bail.')
+      print('Your 3 turns in jail are up. You have to post bail.')
     else:
       print('Type "r" to roll or "b" to post bail.')
-  choice = input()
   jr = 0
   while jr == 0:
+    if jailturn[p] == 4 and goojf[p] == 0:
+      choice = 'b'
+    else:
+      choice = input()
     if choice == 'r' and not jailturn[p] == 4:
       roll()
       if d1 == d2:
@@ -406,8 +404,9 @@ def jail(): #turn code when in jail
       roll()
       land()
       jr = 1
-    elif choice == 'b' and bal[p] < 50:
-      print('You cannot afford bail, you only have $'+str(bal[p]))
+    elif choice == 'b' and bal[p] < 50: 
+      print('Doing that will put you into debt. Are you sure you want to do that (y/n)?')
+      #ADD INPUT AND DEBT() AND FORCE YES IF THEY COULD NOT DO ANYTHING ELSE-----------|
     elif choice == 'g' and goojf[p] > 0:
       goojf[p] -= 1
       print('You used your get out of jail free card.')
@@ -464,7 +463,7 @@ def mortgage(): #mortgage properties
     a = 1
     print('Select the property you want to mortgage\nid isM price name')
     while a < mi:
-      if monopolytest(a,'h') == False:
+      if monopolytest(a,'h') == False: #cannot morgage a property in a color group with houses because houses can only be built on full monopolies
         if ismortgaged[mid[a]] == 1:
           print('{:2}   + {:5d} {}'.format(a,mortgageprice[mid[a]],tilename[mid[a]]))
         else:

@@ -1,4 +1,6 @@
-from random import randint, shuffle #TODO: REMOVE RANDOM continue's--------------------|
+from random import randint, shuffle #TODO: REMOVE RANDOM continue's---|
+#TODO: CHECK EVERY BAL[... -... FOR POSSIBLE LOSS---------------------|
+#TODO: CHECK EVERY DEBT() FOR EXIT PATH-------------------------------| 
 name = ['', '', '', '', '', '', '', '', ''] #name of each player
 print('Welcome to Monopoly. How many players?')
 i = 0 #number and name of players
@@ -406,7 +408,7 @@ def jail(): #turn code when in jail
       jr = 1
     elif choice == 'b' and bal[p] < 50: 
       print('Doing that will put you into debt. Are you sure you want to do that (y/n)?')
-      #ADD INPUT AND DEBT() AND FORCE YES IF THEY COULD NOT DO ANYTHING ELSE-----------|
+      #ADD INPUT AND DEBT() AND FORCE YES IF THEY COULD NOT DO ANYTHING ELSE---------------------------------------------------|
     elif choice == 'g' and goojf[p] > 0:
       goojf[p] -= 1
       print('You used your get out of jail free card.')
@@ -439,7 +441,7 @@ def debt(): #player balance below 0 turn code
             if ownedby[i] == p:
               ownedby[i] = 0
               numhouse[i] = 0
-              ismortgaged[i] = 0
+              ismortgaged[i] = 0 #SOFTLOCK--------------|
           alive[p] = False
           print(name[p]+' is now out of the game.')
         elif choice == 'n':

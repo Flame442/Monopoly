@@ -421,7 +421,7 @@ def jail(): #turn code when in jail
       print('Select one of the options.')
 
 def debt(): #player balance below 0 turn code
-  while bal[p] < 0:
+  while bal[p] < 0 and alive[p]:
     print('You are in debt. You have $'+str(bal[p])+'.\nSelect an option to get out of debt:\nt: Trade\nm: Mortgage\nh: Sell Houses\ng: Give up')
     choice = input()
     if choice == 't':
@@ -441,7 +441,7 @@ def debt(): #player balance below 0 turn code
             if ownedby[i] == p:
               ownedby[i] = 0
               numhouse[i] = 0
-              ismortgaged[i] = 0 #SOFTLOCK--------------|
+              ismortgaged[i] = 0
           alive[p] = False
           print(name[p]+' is now out of the game.')
         elif choice == 'n':
@@ -952,7 +952,7 @@ def turn(): #choices on turn
     jail()
   else:
     wd = 1
-    while wd == 1:
+    while wd == 1 and alive[p]:
       r = 0
       while r == 0:
         print('Type r to roll, t to trade, h to manage houses, or m to mortgage.')
@@ -984,7 +984,7 @@ def turn(): #choices on turn
           clear()
           print('Copy the following, put it in a text file called "save.txt", and relaunch monopoly.py to restart from here.\n\n'+autosave+'\n')
   r = 1
-  while r == 1 and alive[p] == 1:
+  while r == 1 and alive[p]:
     print('Type t to trade, m to mortgage, h to manage houses, or d when done')
     choice = input()
     if choice == 't':
@@ -997,24 +997,6 @@ def turn(): #choices on turn
       mortgage()
     elif choice == 'h':
       house()
-
-def gameover(): #game over code after someone wins
-  for o in range(9):
-    if alive[o]:
-      print(name[o]+' wins!')
-
-def gamerun(): #code for changing player by turn
-  global p
-  global autosave
-  p = 1
-  while numalive >= 2:
-    if p > num:
-      p = 1
-    if alive[p]:
-      autosave = ('name = '+str(name)+'\ntilename = '+str(tilename)+'\ninjail = '+str(injail)+'\ntile = '+str(tile)+'\nbal = '+str(bal)+'\np = '+str(p)+'\nownedby = '+str(ownedby)+'\nnumhouse = '+str(numhouse)+'\nismortgaged = '+str(ismortgaged)+'\ngoojf = '+str(goojf)+'\nalive = '+str(alive)+'\njailturn ='+str(jailturn))
-      turn()
-    p += 1
-  return
 
 def debug(): #print debug info
   db = 0 #manual switch
@@ -1031,5 +1013,14 @@ def debug(): #print debug info
   print(bal[1:])
 
 #start of run code
-gamerun()
-gameover()
+p = 1
+while numalive >= 2:
+  if p > num:
+    p = 1
+  if alive[p]:
+    autosave = ('name = '+str(name)+'\ntilename = '+str(tilename)+'\ninjail = '+str(injail)+'\ntile = '+str(tile)+'\nbal = '+str(bal)+'\np = '+str(p)+'\nownedby = '+str(ownedby)+'\nnumhouse = '+str(numhouse)+'\nismortgaged = '+str(ismortgaged)+'\ngoojf = '+str(goojf)+'\nalive = '+str(alive)+'\njailturn ='+str(jailturn))
+    turn()
+  p += 1
+for o in range(9):
+  if alive[o]:
+    print(name[o]+' wins!')

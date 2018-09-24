@@ -1,9 +1,10 @@
-from random import randint, shuffle #TODO: REMOVE RANDOM continue's---|
+from random import randint, shuffle 
+#TODO: REMOVE RANDOM continue's---------------------------------------|
 #TODO: CHECK EVERY BAL[... -... FOR POSSIBLE LOSS---------------------|
-#TODO: CHECK EVERY DEBT() FOR EXIT PATH-------------------------------| 
+ 
 name = ['', '', '', '', '', '', '', '', ''] #name of each player
 print('Welcome to Monopoly. How many players?')
-i = 0 #number and name of players
+i = 0
 while i == 0:
   try:
     num = int(input())
@@ -406,9 +407,28 @@ def jail(): #turn code when in jail
       roll()
       land()
       jr = 1
-    elif choice == 'b' and bal[p] < 50: 
-      print('Doing that will put you into debt. Are you sure you want to do that (y/n)?')
-      #ADD INPUT AND DEBT() AND FORCE YES IF THEY COULD NOT DO ANYTHING ELSE---------------------------------------------------|
+    elif choice == 'b' and bal[p] < 50:
+      i = 0
+      if jailturn[p] == 4:
+        i = 1
+      while i = 0:
+        print('Doing that will put you into debt. Are you sure you want to do that (y/n)?')
+        ask = input()
+        if ask == 'y':
+          i = 1
+        if ask == 'n':
+          i = 2
+      while i == 1:
+        bal[p] -= 50
+        print('You posted bail. You now have $'+str(bal[p]))
+        jailturn[p] = -1
+        injail[p] = False
+        debt()
+        if alive[p]:
+          roll()
+          land()
+        i = 2
+        jr = 1
     elif choice == 'g' and goojf[p] > 0:
       goojf[p] -= 1
       print('You used your get out of jail free card.')
@@ -948,7 +968,9 @@ def turn(): #choices on turn
   nod = 0
   clear()
   print(name[p]+'\'s turn!')
-  if injail[p]:
+  if bal[p] < 0:
+    debt()
+  if injail[p] and alive[p]:
     jail()
   else:
     wd = 1
@@ -1024,3 +1046,7 @@ while numalive >= 2:
 for o in range(9):
   if alive[o]:
     print(name[o]+' wins!')
+print('\nDebug information\n')
+debug()
+print('\nSave information\n')
+print(autosave)

@@ -1,6 +1,5 @@
 from random import randint, shuffle 
 #TODO: REMOVE RANDOM continue's---------------------------------------|
-#TODO: CHECK EVERY BAL[... -... FOR POSSIBLE LOSS---------------------|
  
 name = ['', '', '', '', '', '', '', '', ''] #name of each player
 print('Welcome to Monopoly. How many players?')
@@ -372,14 +371,14 @@ def jail(): #turn code when in jail
   jailturn[p] += 1
   if goojf[p] > 0:
     if jailturn[p] == 4:
-      print('Your 3 turns in jail are up. Type "b" to post bail, or "g" to use your "Get Out of Jail Free" card.')
+      print('Your 3 turns in jail are up. Type b to post bail, or g to use your "Get Out of Jail Free" card.')
     else:
-      print('Type "r" to roll, "b" to post bail, or "g" to use your "Get Out of Jail Free" card.')
+      print('Type r to roll, b to post bail, or g to use your "Get Out of Jail Free" card.')
   else:
     if jailturn[p] == 4:
       print('Your 3 turns in jail are up. You have to post bail.')
     else:
-      print('Type "r" to roll or "b" to post bail.')
+      print('Type r to roll or b to post bail.')
   jr = 0
   while jr == 0:
     if jailturn[p] == 4 and goojf[p] == 0:
@@ -411,7 +410,7 @@ def jail(): #turn code when in jail
       i = 0
       if jailturn[p] == 4:
         i = 1
-      while i = 0:
+      while i == 0:
         print('Doing that will put you into debt. Are you sure you want to do that (y/n)?')
         ask = input()
         if ask == 'y':
@@ -663,6 +662,8 @@ def cc(): #get a cc card
   elif ccorder[ccn] == 5:
     tile[p] = 10
     injail[p] = True
+    global wd
+    wd = 0
   elif ccorder[ccn] == 6:
     bal[p] += 50*numalive
     for i in range(1,num+1):
@@ -789,6 +790,8 @@ def chance(): #get a chance card
   elif chanceorder[chancen] == 8:
     tile[p] = 10
     injail[p] = True
+    global wd
+    wd = 0
   elif chanceorder[chancen] == 9:
     housepay(25, 100)
   elif chanceorder[chancen] == 10:
@@ -951,6 +954,8 @@ def landnd(): #affecting properties
     elif tile[p] == 30:
       injail[p] = True
       tile[p] = 10
+      global wd
+      wd = 0
       print('You are now in jail!')
     elif tile[p] == 4:
       bal[p] -= 200
@@ -973,6 +978,7 @@ def turn(): #choices on turn
   if injail[p] and alive[p]:
     jail()
   else:
+    global wd
     wd = 1
     while wd == 1 and alive[p]:
       r = 0
@@ -1007,7 +1013,7 @@ def turn(): #choices on turn
           print('Copy the following, put it in a text file called "save.txt", and relaunch monopoly.py to restart from here.\n\n'+autosave+'\n')
   r = 1
   while r == 1 and alive[p]:
-    print('Type t to trade, m to mortgage, h to manage houses, or d when done')
+    print('Type t to trade, m to mortgage, h to manage houses, or d when done.')
     choice = input()
     if choice == 't':
       trade()

@@ -1,6 +1,4 @@
 from random import randint, shuffle 
-#TODO: REMOVE RANDOM continue's---------------------------------------|
- 
 name = ['', '', '', '', '', '', '', '', ''] #name of each player
 print('Welcome to Monopoly. How many players?')
 i = 0
@@ -154,7 +152,7 @@ def trade(): #trades between players, messy don't even try to read...
       print('Select one of the options')
   a,pti = 0,1
   while a < 40:
-    if ownedby[a] == p and numhouse[a] == 0: #can only trade if owned by the player and does not have a house
+    if ownedby[a] == p and bool(numhouse[a] == 0 or numhouse[a] == -1): #can only trade if owned by the player and does not have a house
       tradeidp[pti] = a #put in the holding cell
       pti += 1
     a += 1
@@ -171,7 +169,7 @@ def trade(): #trades between players, messy don't even try to read...
     print('$'+str(monp)) #money trade
     if jp == 1: #plural test
       print(str(jp)+' get out of jail free card')
-    else:
+    elif jp != 0:
       print(str(jp)+' get out of jail free cards')
     print('')
     print('Type the number of the properties you want to give, "m" to give money, "j" to give get out of jail free cards, and "d" when you are done')
@@ -211,7 +209,7 @@ def trade(): #trades between players, messy don't even try to read...
         continue
   a,nti = 0,1 #EVERYTHIN ABOVE REPEATED FOR SELECTING PROPERTIES FROM TRADEP(artner)
   while a < 40:
-    if ownedby[a] == tradep and numhouse[a] == 0:
+    if ownedby[a] == tradep and bool(numhouse[a] == 0 or numhouse[a] == -1):
       tradeidn[nti] = a
       nti += 1
     a += 1
@@ -228,7 +226,7 @@ def trade(): #trades between players, messy don't even try to read...
     print('$'+str(monn))
     if jn == 1:
       print(str(jn)+' get out of jail free card')
-    else:
+    elif jn != 0:
       print(str(jn)+' get out of jail free cards')
     print('')
     print('Type the number of the properties you want to take, "m" to take money, "j" to take get out of jail free cards, and "d" when you are done')
@@ -276,7 +274,7 @@ def trade(): #trades between players, messy don't even try to read...
   print('$'+str(monp))
   if jp == 1:
     print(str(jp)+' get out of jail free card')
-  else:
+  elif jp != 0:
     print(str(jp)+' get out of jail free cards')
   print('')
   print('You will get:')
@@ -288,7 +286,7 @@ def trade(): #trades between players, messy don't even try to read...
   print('$'+str(monn))
   if jn == 1:
     print(str(jn)+' get out of jail free card')
-  else:
+  elif jn != 0:
     print(str(jn)+' get out of jail free cards')
   print('')
   while i == 3:
@@ -301,7 +299,7 @@ def trade(): #trades between players, messy don't even try to read...
       print('Select y or n')
   if i == 4:
     clear()
-    print(name[tradep]+'\'s turn!\n'+name[p]+' would like to trade with you! Here is their offer\nAccept with y or deny with n\n\nYou will get:')
+    print(name[tradep]+'\'s turn!\n'+name[p]+' would like to trade with you. Here is their offer.\nAccept with y or deny with n.\n\nYou will get:')
     a = 1
     while a < pti:
       if ptotrade[tradeidp[a]] == 1:
@@ -310,7 +308,7 @@ def trade(): #trades between players, messy don't even try to read...
     print('$'+str(monp))
     if jp == 1:
       print(str(jp)+' get out of jail free card')
-    else:
+    elif jp != 0:
       print(str(jp)+' get out of jail free cards')
     print('')
     print('You will give:')
@@ -322,7 +320,7 @@ def trade(): #trades between players, messy don't even try to read...
     print('$'+str(monn))
     if jn == 1:
       print(str(jn)+' get out of jail free card')
-    else:
+    elif jn != 1:
       print(str(jn)+' get out of jail free cards')
     print('')
     while i == 4:

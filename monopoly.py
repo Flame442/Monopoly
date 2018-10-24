@@ -459,6 +459,8 @@ def debt(): #player balance below 0 turn code
               ownedby[i] = 0
               numhouse[i] = 0
               ismortgaged[i] = 0
+              global numalive
+              numalive -= 1
           alive[p] = False
           print(name[p]+' is now out of the game.')
         elif choice == 'n':
@@ -467,7 +469,8 @@ def debt(): #player balance below 0 turn code
           print('Select one of the options')
     else:
       print('Select one of the options')
-  print('You are now out of debt. You now have $'+str(bal[p]))
+  if alive[p]:
+    print('You are now out of debt. You now have $'+str(bal[p]))
 
 def mortgage(): #mortgage properties 
   mid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -1047,7 +1050,7 @@ while numalive >= 2:
     autosave = ('name = '+str(name)+'\ntilename = '+str(tilename)+'\ninjail = '+str(injail)+'\ntile = '+str(tile)+'\nbal = '+str(bal)+'\np = '+str(p)+'\nownedby = '+str(ownedby)+'\nnumhouse = '+str(numhouse)+'\nismortgaged = '+str(ismortgaged)+'\ngoojf = '+str(goojf)+'\nalive = '+str(alive)+'\njailturn ='+str(jailturn))
     turn()
   p += 1
-for o in range(9):
+for o in range(1,num+1):
   if alive[o]:
     print(name[o]+' wins!')
 print('\nDebug information\n')

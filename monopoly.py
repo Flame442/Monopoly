@@ -721,7 +721,7 @@ def chance(): #get a chance card
       bal[p] += 200
       print('You passed go, you now have $'+str(bal[p]))
       tile[p] = 12 
-    print('You are now at '+tilename[tile[p])
+    print('You are now at '+tilename[tile[p]])
     if ownedby[tile[p]] == 0 and bal[p] >= pricebuy[tile[p]]:
       print('Would you like to buy '+tilename[tile[p]]+' for $'+str(pricebuy[tile[p]])+'? (y/n) You have $'+str(bal[p])+'.')
       a = 0

@@ -111,7 +111,7 @@ def monopolytest(t,test): #tests if prop in monopoly or any properties in color 
     return False
   elif test == 'h':
     for i in range(8):
-      if bool(bool(t == pga[i] or t == pgb[i] or t == pgc[i]) and bool(bool(numhouse[pga[i]] != 0) or bool(numhouse[pgb[i]] != 0) or bool(numhouse[pgc[i]]) != 0) and bool(ownedby[pga[i]] != 0)): #if none of the properties in the color group have houses, return True
+      if bool(bool(t == pga[i] or t == pgb[i] or t == pgc[i]) and bool(bool(numhouse[pga[i]] != 0) or bool(numhouse[pgb[i]] != 0) or bool(numhouse[pgc[i]]) != 0) and bool(ownedby[pga[i]] != 0)): #if at least one of the properties in the color group has houses, return True
         return True
     return False
   return False
@@ -721,7 +721,7 @@ def chance(): #get a chance card
       bal[p] += 200
       print('You passed go, you now have $'+str(bal[p]))
       tile[p] = 12 
-    print('You are now at '+name[tile[p]])
+    print('You are now at '+tilename[tile[p])
     if ownedby[tile[p]] == 0 and bal[p] >= pricebuy[tile[p]]:
       print('Would you like to buy '+tilename[tile[p]]+' for $'+str(pricebuy[tile[p]])+'? (y/n) You have $'+str(bal[p])+'.')
       a = 0

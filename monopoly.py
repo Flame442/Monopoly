@@ -824,19 +824,20 @@ def chance(): #get a chance card
     elif ownedby[5] == p:
       print('You own this property already.')
     elif ismortgaged[5] == 1:
-      await self.bot.say('This property is mortgaged.')
-    rr = 0
-    if ownedby[5] == ownedby[5]:
-      rr += 1
-    if ownedby[15] == ownedby[5]:
-      rr += 1
-    if ownedby[25] == ownedby[5]:
-      rr += 1
-    if ownedby[35] == ownedby[5]:
-      rr += 1
-    bal[p] -= rrprice[rr]
-    bal[ownedby[5]] += rrprice[rr]
-    print('You paid $'+str(rrprice[rr])+' of rent to '+name[ownedby[5]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[5]]+' now has $'+str(bal[ownedby[5]])+'.')
+      print('This property is mortgaged.')
+    else:
+      rr = 0
+      if ownedby[5] == ownedby[5]:
+        rr += 1
+      if ownedby[15] == ownedby[5]:
+        rr += 1
+      if ownedby[25] == ownedby[5]:
+        rr += 1
+      if ownedby[35] == ownedby[5]:
+        rr += 1
+      bal[p] -= rrprice[rr]
+      bal[ownedby[5]] += rrprice[rr]
+      print('You paid $'+str(rrprice[rr])+' of rent to '+name[ownedby[5]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[5]]+' now has $'+str(bal[ownedby[5]])+'.')
   elif chanceorder[chancen] == 12:
     tile[p] = 39
     cchanceland()

@@ -543,9 +543,9 @@ def mortgage(): #mortgage properties
         print('Select one of the options')
 
 def house(): #buy/sell houses
-  doprint = False
   io = 0
   while io == 0:
+    doprint = False
     clear()
     hid = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     hs = [1, 6, 11, 16, 21, 26, 31, 37]
@@ -781,6 +781,7 @@ def chance(): #get a chance card
     bal[p] += 50
     print('You now have $'+str(bal[p]))
   elif chanceorder[chancen] == 6:
+    goojf[p] += 1
     if goojf[p] == 1:
       print('You now have '+str(goojf[p])+' get out of jail free card.')
     else:
@@ -803,18 +804,39 @@ def chance(): #get a chance card
       bal[p] += 200
       print('You passed go, you now have $'+str(bal[p]))
     tile[p] = 5
+    if ownedby[5] == 0 and bal[p] >= pricebuy[5]:
+      print('Would you like to buy '+tilename[5]+' for $'+str(pricebuy[5])+'? (y/n) You have $'+str(bal[p])+'.'))
+      a = 0
+      while a = 0:
+        response = input()
+        if response == 'y': #buy property
+          bal[p] -= pricebuy[5]
+          ownedby[5] = p
+          print(name[p]+' now owns '+tilename[5]+' and has $'+str(bal[p]))
+          a = 1
+        elif response == 'n': #pass on property
+          a = 1
+        else:
+          print('Please select y or n')
+          continue
+    elif ownedby[5] == 0 and bal[p] < pricebuy[5]:
+      print('You cannot afford '+tilename[5]+', you only have $'+str(bal[p])+' of $'+str(pricebuy[5])+'.')
+    elif ownedby[5] == p:
+      print('You own this property already.')
+    elif ismortgaged[5] == 1:
+      await self.bot.say('This property is mortgaged.')
     rr = 0
-    if ownedby[5] == ownedby[tile[p]]:
+    if ownedby[5] == ownedby[5]:
       rr += 1
-    if ownedby[15] == ownedby[tile[p]]:
+    if ownedby[15] == ownedby[5]:
       rr += 1
-    if ownedby[25] == ownedby[tile[p]]:
+    if ownedby[25] == ownedby[5]:
       rr += 1
-    if ownedby[35] == ownedby[tile[p]]:
+    if ownedby[35] == ownedby[5]:
       rr += 1
     bal[p] -= rrprice[rr]
-    bal[ownedby[tile[p]]] += rrprice[rr]
-    print('You paid $'+str(rrprice[rr])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
+    bal[ownedby[5]] += rrprice[rr]
+    print('You paid $'+str(rrprice[rr])+' of rent to '+name[ownedby[5]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[5]]+' now has $'+str(bal[ownedby[5]])+'.')
   elif chanceorder[chancen] == 12:
     tile[p] = 39
     cchanceland()

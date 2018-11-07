@@ -765,18 +765,40 @@ def chance(): #get a chance card
       print('You passed go, you now have $'+str(bal[p]))
       tile[p] = 5
     print('You are now at '+tilename[tile[p]])
-    rr = 0
-    if ownedby[5] == ownedby[tile[p]]:
-      rr += 1
-    if ownedby[15] == ownedby[tile[p]]:
-      rr += 1
-    if ownedby[25] == ownedby[tile[p]]:
-      rr += 1
-    if ownedby[35] == ownedby[tile[p]]:
-      rr += 1
-    bal[p] -= rrprice[rr]
-    bal[ownedby[tile[p]]] += rrprice[rr]
-    print('You paid $'+str(rrprice[rr])+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
+    if ownedby[tile[p]] == 0 and bal[p] >= pricebuy[tile[p]]:
+      print('Would you like to buy '+tilename[tile[p]]+' for $'+str(pricebuy[tile[p]])+'? (y/n) You have $'+str(bal[p])+'.'))
+      a = 0
+      while a = 0:
+        response = input()
+        if response == 'y': #buy property
+          bal[p] -= pricebuy[tile[p]]
+          ownedby[tile[p]] = p
+          print(name[p]+' now owns '+tilename[tile[p]]+' and has $'+str(bal[p]))
+          a = 1
+        elif response == 'n': #pass on property
+          a = 1
+        else:
+          print('Please select y or n')
+          continue
+    elif ownedby[tile[p]] == 0 and bal[p] < pricebuy[tile[p]]:
+      print('You cannot afford '+tilename[tile[p]]+', you only have $'+str(bal[p])+' of $'+str(pricebuy[tile[p]])+'.')
+    elif ownedby[tile[p]] == p:
+      print('You own this property already.')
+    elif ismortgaged[tile[p]] == 1:
+      print('This property is mortgaged.')
+    else:
+      rr = 0
+      if ownedby[5] == ownedby[tile[p]]:
+        rr += 1
+      if ownedby[15] == ownedby[tile[p]]:
+        rr += 1
+      if ownedby[25] == ownedby[tile[p]]:
+        rr += 1
+      if ownedby[35] == ownedby[tile[p]]:
+        rr += 1
+      bal[p] -= rrprice[rr]*2
+      bal[ownedby[tile[p]]] += rrprice[rr]*2
+      print('You paid $'+str(rrprice[rr]*2)+' of rent to '+name[ownedby[tile[p]]]+'. You now have $'+str(bal[p])+'. '+name[ownedby[tile[p]]]+' now has $'+str(bal[ownedby[tile[p]]])+'.')
   elif chanceorder[chancen] == 5:
     bal[p] += 50
     print('You now have $'+str(bal[p]))

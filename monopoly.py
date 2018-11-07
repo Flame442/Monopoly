@@ -626,7 +626,7 @@ def house(): #buy/sell houses
             ttt = input()
             if ttt == 'y':
               for x in hdic[hid[t]]:
-                numhouse[x] = ttt
+                numhouse[x] = tt
               bal[p] -= amount
               doprint = True
               i = 3
@@ -766,9 +766,9 @@ def chance(): #get a chance card
       tile[p] = 5
     print('You are now at '+tilename[tile[p]])
     if ownedby[tile[p]] == 0 and bal[p] >= pricebuy[tile[p]]:
-      print('Would you like to buy '+tilename[tile[p]]+' for $'+str(pricebuy[tile[p]])+'? (y/n) You have $'+str(bal[p])+'.'))
+      print('Would you like to buy '+tilename[tile[p]]+' for $'+str(pricebuy[tile[p]])+'? (y/n) You have $'+str(bal[p])+'.')
       a = 0
-      while a = 0:
+      while a == 0:
         response = input()
         if response == 'y': #buy property
           bal[p] -= pricebuy[tile[p]]
@@ -827,9 +827,9 @@ def chance(): #get a chance card
       print('You passed go, you now have $'+str(bal[p]))
     tile[p] = 5
     if ownedby[5] == 0 and bal[p] >= pricebuy[5]:
-      print('Would you like to buy '+tilename[5]+' for $'+str(pricebuy[5])+'? (y/n) You have $'+str(bal[p])+'.'))
+      print('Would you like to buy '+tilename[5]+' for $'+str(pricebuy[5])+'? (y/n) You have $'+str(bal[p])+'.')
       a = 0
-      while a = 0:
+      while a == 0:
         response = input()
         if response == 'y': #buy property
           bal[p] -= pricebuy[5]
@@ -956,7 +956,7 @@ def landnd(): #affecting properties
     print('You own this property already.')
   elif ismortgaged[tile[p]] == 1:
     print('This property is mortgaged.')
-  elif ownedby[tile[p]] > 0 and rentprice[tile[p]] == -1: #rr and utilities
+  elif ownedby[tile[p]] > 0 and rentprice[tile[p]*6] == -1: #rr and utilities
     if tile[p] in (12, 28): #utility
       if ownedby[12] == ownedby[28]: #own both
         bal[p] -= ((d1 + d2)*10)
